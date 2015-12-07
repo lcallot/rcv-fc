@@ -76,7 +76,7 @@ img {
 <ol style="list-style-type: decimal">
 <li>Computing the VAR forecasts. This step involves heavy computations, some of which was carried on the <a href="https://userinfo.surfsara.nl/systems/lisa">Lisa cluster</a> and some on the server of the VU’s Econometrics and OR department. The <strong>R</strong> scripts for these computations are found in the <em>VAR_forecasting</em> folder.</li>
 <li>Computing summary statistics of the forecasts and generating tables and figures. The <strong>knitr</strong> (.Rnw) files used for this step can be found in the <em>VAR_processing</em> folder. Generating the output requires that the results from step 1 be included in the <em>fc_data</em> folder. The output files of the forecasting procedure are not included in this repo due to their large size.</li>
-<li>The files used to compute the portfolio statistics. The input for the portfolio selection procedure is <em>.csv</em> files containing the stacked forecasts of the covariance matrix as well as the corresponding daily returns found in the <em>data</em> folder. Note that these are <strong>Matlab</strong> files written by Marcelo C. Medeiros.</li>
+<li>The files used to compute the portfolio statistics. These files are cound in the <em>portfolio</em> folder, the main file is <em>portopt.m</em>. The input for the portfolio selection procedure is <em>.csv</em> files containing the stacked forecasts of the covariance matrix and files containing the daily returns found in the <em>data</em> folder. The output is saved in the <em>.mat</em> file. Note that these are <strong>Matlab</strong> files written by Marcelo C. Medeiros, they require the <em>optimization toolbox</em>.</li>
 </ol>
 <p>Other material includes:</p>
 <ul>
