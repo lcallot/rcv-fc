@@ -1,0 +1,286 @@
+
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor,colortbl}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+% bold rows
+\usepackage{array}
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+% Invisible table columns!
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}% Properly placed sideways table with asmart class. 
+
+\setlength\rotFPtop{0pt plus 1fil} 
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Med}{\mathbb{M}ed}
+\DeclareMathOperator{\Mean}{\mathbb{M}ean}
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+
+\definecolor{LightRed}{rgb}{1,.88,.88}
+\definecolor{LightBlue}{rgb}{.88,.88,1}
+\definecolor{LightGreen}{rgb}{.88,1,.88}
+
+\newtheorem{theorem}{Theorem}
+\begin{document}
+	
+\title{Dow-Jones Forecasting.}   
+\author{LAFC ABK MCM}
+\date{\today}
+\maketitle
+
+<<fc-long-init-fac,eval=TRUE,echo=FALSE,cache=FALSE,results='hide'>>=
+#	Loading required libraries. The dependencies should be installed as well. 
+require('reshape2')
+require('ggplot2')
+require('Matrix')
+require('SparseM')
+require('glmnet')
+require('xtable')
+#require('rhdf5')
+require('expm')
+require('plyr')
+library('lassovar')
+require('doMC')
+
+
+#Sourcing the subs
+source('../subs/plot_subs.R')
+source('../subs/data_subs.R')
+source('../subs/rv_subs.R')
+source('../subs/ptf_subs.R')
+source('../subs/tabs_subs.R')
+
+#Knitr global chunk settings, modify at your won risk.
+opts_chunk$set( fig.align='center'
+	       , dev='pdf'
+	       , fig.width=8, fig.height=7, fig.show='hold'
+	       , cache=FALSE
+	       , par=TRUE
+	       , tidy=TRUE
+	       , highlight=TRUE
+	       , echo=FALSE
+	       , eval=TRUE)
+
+
+@
+
+This file (the source {\tt .Rnw} version of it) contains the code necessary to replicate the forecasting and model evaluation results.
+
+I am going to estimate a small variety of models on the Dow-Jones data, but compute only 474 forecasts.  Another document using a more wider set of models and computing much fewer of forecasts has also been created. 
+The chunk below sets some estimation parameters and defines the model specifications that will be estimated. 
+
+<<fc-long-mc-settings-fac,cache=TRUE>>=
+
+ncores <- 2
+registerDoMC(cores=ncores)
+horizon		<-1
+fc.window	<-'fix'
+crit		<-'BIC'
+
+hsel <- c(1,5,20)
+
+# Creating the list of diagonal indices for each stock set. 
+nstock     <- 31
+diag.ind	<-rep(0,nstock*(nstock+1)/2)
+diag.ind[cumsum(1:nstock)]	<-1
+dates.all	<-read.table('../data/dates')$V1
+@
+
+
+<<fc-long-sel-dat-mod-fac,cache=TRUE,echo=FALSE,dependson='fc-long-mc-settings-fac'>>=
+
+mod.smpl <- matrix(rbind(
+			 #c('var',1,'Lasso','none','fac.cens.lcpd',1000,'none')
+			 c('var',1,'Lasso','none','fac.cens.lcpd',1000,'none')
+			 #c('var',1,'Lasso','none','fac.cens.lcpd',1000,'none'),
+			 #c('var',20,'Lasso','none','fac.cens.lcpd',1000,'none')
+			 ),ncol=7,
+			dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+
+
+@
+
+
+Now that the models are selected and the estimation parameters set, we can estimate them. Below we estimate and forecast with the set of models defined above.
+
+
+
+<<roll-forecast-fac,cache=TRUE,dependson='fc-long-sel-dat-mod-fac'>>=
+#mod.smpl.all<- rbind(mod.smpl,mod.smpl.W,mod.smpl.M)#,mod.smpl2)
+# Computing the recursive forecasts
+fc.roll(mod.smpl,hmax=20,diag.ind=diag.ind)
+#fc.roll(mod.smpl.W,hmax=26,diag.ind=diag.ind)
+#fc.roll(mod.smpl.M,hmax=6,diag.ind=diag.ind)
+@
+
+
+
+
+<<mk-stattab-fac,dependson='roll-forecast-fac',cache=TRUE>>=
+
+# redefine diag.ind with 3rd category to exclude the S&P variance and covariance equations. 
+diag.ind.fac <- diag.ind
+
+ndj <- 30*31/2
+diag.ind.fac[(ndj+1):length(diag.ind)] <- 99 
+
+hsel <- c(1,5,20)
+fctab <- roll.stattab(mod.smpl,diag.ind=diag.ind.fac,hsel=hsel)
+#fctab.W <- roll.stattab(mod.smpl.W,diag.ind=diag.ind.fac,hsel=c(1,10,26))
+#fctab.M <- roll.stattab(mod.smpl.M,diag.ind=diag.ind.fac,hsel=c(1,2,6))
+#mstat  <- rbind(melt(fctab),melt(fctab.W),melt(fctab.M))
+mstat  <- melt(fctab)
+@
+
+<<mk-astat-fac,dependson='roll-forecast-fac',cache=TRUE>>=
+astat <- acast(mstat,model + h~ stat + diag) 
+
+rn <- unlist(strsplit(rownames(astat),split='_'))
+astat <- cbind(rn[(1:(length(rn)/2))*2-1],rn[((1:(length(rn)/2))*2)],astat)
+colnames(astat)[c(1,2)] <- c('Model','Horizon')
+
+@
+
+
+
+<<prt-stattab-fac,results='asis',cache=TRUE,dependson='mk-stattab-fac'>>=
+coltype<-rep('H',ncol(astat))
+
+coltype[c(2,9,10,11,12,13,14,15,16,17)]<-'r'
+coltype[1]<-'l'
+stat.n <- c('beat bmk','RMAFE','Med AFE','Max AFE','frobenius')
+catstattab(astat,coltype,stat.n,hsel)
+@
+
+
+
+
+Here are the models for daily data
+
+<<parxt-fac,cache=TRUE,echo=TRUE>>=
+mod.smpl <- matrix(rbind(
+ c('var',1,'Lasso','none','fac.cens.lcov',1000,'none')
+ ),ncol=7,
+dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+dates.fc	<-tail(read.table('../data/dates')$V1,-1021)
+# extracting
+parmat <- fc.xtpar(mod.smpl,dates.all=dates.fc)
+
+@
+
+
+<<selhm-fac,cache=TRUE,dependson='parxt-fac'>>=
+
+diag.ind.fac <- diag.ind
+ndj <- 30*31/2
+diag.ind.fac[(ndj+1):length(diag.ind)] <- 99 
+#setup
+modind <- 1
+lags <- 1
+dj  <- read.table('../data/dj-ind')
+djn <-dj$V1
+dj <- cbind(dj,which(diag.ind.fac==1))
+
+
+nstock <- nstock - 1
+mall <- NULL
+
+# 1 Selecting in the S&P equation
+# storage matrix
+smat <- matrix(NA,lags*nstock,length(parmat[[modind]]))
+smat2 <- matrix(NA,lags*nstock,length(parmat[[modind]]))
+# Construct row index
+ rind <- c(FALSE,diag.ind.fac==1)
+  
+  for(fc in 1:length(parmat[[modind]])){
+    smat[,fc] <-t( as.matrix(parmat[[modind]][[fc]])[rind,496])
+    smat2[,fc] <- as.matrix(parmat[[modind]][[fc]])[497,rind[-1]]
+  }
+  
+# some naming stuff
+  Covariates <- as.character(djn)
+  smat <- data.frame(cbind(Covariates,smat!=0))
+  smat2 <- data.frame(cbind(Covariates,smat2!=0))
+  
+  rownames(smat) <- rownames(smat2) <- djn
+  colnames(smat)[-c(1)] <- colnames(smat2)[-c(1)] <- as.character(dates.fc)
+
+  msm <- melt(smat,id.vars=c(1))
+  msm$value <-factor(msm$value)
+  msm$Date  <-as.character(msm$variable)
+  msm$Stock <- 'Variances selected in S&P equation.'
+
+  msm2 <- melt(smat2,id.vars=c(1))
+  msm2$value <-factor(msm2$value)
+  msm2$Date  <-as.character(msm2$variable)
+  msm2$Stock <- 'S&P selected in variance equations.'
+  
+  mall <- rbind(msm,msm2)
+
+
+dt      <- as.Date(dates.fc)
+brkind     <- ceiling(seq(1+15,length(dt)-15,length.out = 5))
+brk  <- as.character(dates.fc[brkind])
+brklab  <- as.character(format(as.Date(dates.fc[brkind]),'%b %Y'))
+
+levels(mall$value) <- c('Discarded','Selected')
+
+
+p <- ggplot(mall,aes(group=value,x=Date, y=Covariates)) + geom_tile(aes(fill = value)) +
+  facet_wrap(~Stock,ncol=2,scale='free') +
+  theme_bw() +
+  theme(legend.position="bottom") +
+  scale_x_discrete(breaks=brk,labels=brklab) + 
+  theme(axis.text.y=element_text(size=6)) +
+  scale_fill_manual(values =c('white','royalblue4'),name = 'Estimated parameter') 
+print(p)
+ggsave(filename = 'SPsel.pdf',p,width=18,height=11,units='cm')
+@
+
+
+
+<<selfrq-fac,cache=TRUE,dependson='selhm-fac'>>=
+
+faccat <- read.csv('..//data//fac-cat',sep=' ')[,1:3]
+
+eq <- selmat(parmat[[1]],faccat,nstock=31)
+
+cat('diagonal equations')
+print.xtable(xtable(eq$deq),only.contents = TRUE)
+cat('off-diagonal equations')
+print.xtable(xtable(eq$oeq),only.contents = TRUE)
+
+@
+
+
+\end{document}

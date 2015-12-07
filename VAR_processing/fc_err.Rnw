@@ -1,0 +1,216 @@
+
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor,colortbl}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+% bold rows
+\usepackage{array}
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+% Invisible table columns!
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}% Properly placed sideways table with asmart class. 
+
+\setlength\rotFPtop{0pt plus 1fil} 
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Med}{\mathbb{M}ed}
+\DeclareMathOperator{\Mean}{\mathbb{M}ean}
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+
+\definecolor{LightRed}{rgb}{1,.88,.88}
+\definecolor{LightBlue}{rgb}{.88,.88,1}
+\definecolor{LightGreen}{rgb}{.88,1,.88}
+
+\newtheorem{theorem}{Theorem}
+\begin{document}
+	
+\title{Forecast errors}   
+\author{LAFC ABK MCM}
+\date{\today}
+\maketitle
+
+<<setup,eval=TRUE,echo=FALSE,cache=FALSE,results='hide',message=FALSE>>=
+#	Loading required libraries. The dependencies should be installed as well. 
+require('reshape2')
+require('ggplot2')
+require('Matrix')
+require('SparseM')
+require('glmnet')
+require('xtable')
+#require('rhdf5')
+require('expm')
+require('plyr')
+library('lassovar')
+require('doMC')
+library('RColorBrewer')
+
+
+#Sourcing the subs
+source('../subs/data_subs.R')
+source('../subs/rv_subs.R')
+source('../subs/ptf_subs.R')
+source('../subs/tabs_subs.R')
+
+#Knitr global chunk settings, modify at your won risk.
+opts_chunk$set( fig.align='center'
+	       , dev='pdf'
+	       , fig.width=8, fig.height=7, fig.show='hold'
+	       , cache=FALSE
+	       , par=TRUE
+	       , tidy=TRUE
+	       , highlight=TRUE
+	       , echo=FALSE
+	       , eval=TRUE)
+
+@
+
+
+
+
+
+
+<<plt-errset,cache=TRUE>>=
+# Creating the list of diagonal indices for each stock set. 
+nstock     <- 30
+diag.ind	<-rep(0,nstock*(nstock+1)/2)
+diag.ind[cumsum(1:nstock)]	<-1
+
+dates.all	<-head(tail(read.table('../data/dates')$V1,-1021),-19)
+
+@
+
+
+Let's look at the forecast errors
+<<parxt,cache=TRUE,echo=TRUE,dependson='plt-errset'>>=
+mod.smpl <- matrix(rbind(
+ c('var',1,'Lasso','none','dj.cens.lcov',1000,'none'),
+# c('var',5,'Lasso','none','dj.cens.lcov',1000,'none'),
+ c('var',20,'Lasso','none','dj.cens.lcov',1000,'none')
+ ),ncol=7,
+dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+
+err <- fc.xterr(mod.smpl,diag.ind=diag.ind,dates.all=dates.all)
+
+@
+
+
+<<plt-setup,cache=TRUE>>=
+modnm <- names(err)
+
+hsel <- c(1,5,10,20)
+lags <- c(1,1,5,5)
+
+dj  <- read.table('../data/dj-ind')
+dj <- cbind(dj,which(diag.ind==1))
+djn <- dj[,1]
+
+@
+
+
+
+<<froberr,dependson='plt-setup',cache=TRUE>>=
+# Frobenius time series by horizon function
+fbn<-function(err,diag.ind) frobenius<-aaply(err,c(3),function(x)(sqrt(rowSums(x^2))))
+
+# Getting the frobenuis norms
+froberr <- list() 
+for(mn in modnm)
+#mn <- modnm[1]
+{
+  froberr[[mn]] <- fbn(err[[mn]],diag.ind=diag.ind)
+  colnames(froberr[[mn]]) <- dates.all
+}
+names(froberr) <- c('Lasso.VAR.1','Post.Lasso.VAR.1','Lasso.VAR.20','Post.Lasso.VAR.20')
+
+@
+
+
+<<frobplot,dependson='froberr',cache=TRUE>>=
+
+mfro <- melt(froberr)
+colnames(mfro) <- c('Horizon','Date','Frobenius','Model')
+mfro$Date <- as.Date(mfro$Date)
+
+mfro$Error.date  <- mfro$Date + as.numeric(mfro$Horizon)
+mfro$Horizon <- factor(mfro$Horizon)
+
+pal <- brewer.pal(length(hsel)+4,'Blues') 
+
+p <- ggplot(subset(mfro,(Horizon%in%hsel)&(Model=='Lasso.VAR.1')),aes(x=Error.date,y=Frobenius,colour=Horizon)) + geom_point(size=1) + geom_smooth(span=0.2,se=FALSE,method='loess') + facet_wrap(~Model ,ncol=2) + theme_bw() 
+p <- p + scale_color_manual(values=tail(pal,-4))
+
+print(p)
+@
+
+
+
+<<stkerr,dependson='plt-setup',cache=TRUE>>=
+
+stkn <- c('AA','IBM','JPM','KO')
+stkind <- dj[which(dj[,1]%in%stkn),3]
+
+# Getting the frobenuis norms
+stkerr <- list() 
+for(mn in modnm)
+#mn <- modnm[1]
+{
+  stkerr[[mn]] <- err[[mn]][,stkind,hsel]
+  dimnames(stkerr[[mn]]) <- list('Date'=dates.all,'Stock'=stkn,'Horizon'=hsel)
+}
+names(stkerr) <- c('Lasso.VAR.1','Post.Lasso.VAR.1','Lasso.VAR.20','Post.Lasso.VAR.20')
+
+mstk <- melt(stkerr)
+colnames(mstk)[5] <- 'Model'
+
+
+mstk$Date <- as.Date(mstk$Date)
+mstk$Error.date  <- mstk$Date + as.numeric(mstk$Horizon)
+mstk$Horizon <- factor(mstk$Horizon)
+
+pal <- brewer.pal(length(hsel)+4,'Blues') 
+
+p <- ggplot(subset(mstk,Model=='Lasso.VAR.1'),aes(x=value,colour=Horizon)) + geom_line(stat="density") +facet_wrap(~Stock ,ncol=2) + theme_bw()
+p <- p + scale_color_manual(values=tail(pal,-4))
+print(p)
+@
+
+<<stkplt2,dependson='stkerr'>>=
+pal <- brewer.pal(length(hsel)+4,'Blues') 
+
+p2 <- ggplot(subset(mstk,Model=='Lasso.VAR.1'),aes(x=Error.date,y=(value),colour=Horizon)) + geom_point(size=0.5) + geom_smooth(span=0.2,se=FALSE,method='loess') +facet_wrap(~Stock ,ncol=2) + theme_bw()
+p2 <- p2 + scale_color_manual(values=tail(pal,-4))
+print(p2)
+
+
+@
+
+
+\end{document}

@@ -1,0 +1,24 @@
+#PBS -lwalltime=12:00:00
+
+# Nodes and cpu per nodes
+#PBS -lnodes=2:ppn=16
+
+#PBS -rn 
+
+# Loading modules
+module load saranodes
+module load R
+#module load  mkl/64/10.3.11
+
+echo "Job $PBS_JOBID started at `date`" | mail $USER -s "Job $PBS_JOBID"
+
+# modify manually
+cd $HOME/Dropbox/RCV_Forecast/lisa/
+
+# Rscript call. The last parameter is the number of cores.
+# must be equal to ppn * lnodes.
+Rscript --no-save model_est_SP.R   32
+
+
+
+echo "Job $PBS_JOBID ended at `date`" | mail $USER -s "Job $PBS_JOBID"

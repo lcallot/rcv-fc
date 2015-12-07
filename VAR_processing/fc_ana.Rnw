@@ -1,0 +1,235 @@
+
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor,colortbl}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+% bold rows
+\usepackage{array}
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+% Invisible table columns!
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}% Properly placed sideways table with asmart class. 
+
+\setlength\rotFPtop{0pt plus 1fil} 
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Med}{\mathbb{M}ed}
+\DeclareMathOperator{\Mean}{\mathbb{M}ean}
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+
+\definecolor{LightRed}{rgb}{1,.88,.88}
+\definecolor{LightBlue}{rgb}{.88,.88,1}
+\definecolor{LightGreen}{rgb}{.88,1,.88}
+
+\newtheorem{theorem}{Theorem}
+\begin{document}
+	
+\title{Forecast extraction}   
+\author{LAFC ABK MCM}
+\date{\today}
+\maketitle
+
+<<setup,eval=TRUE,echo=FALSE,cache=FALSE,results='hide',message=FALSE>>=
+#	Loading required libraries. The dependencies should be installed as well. 
+require('reshape2')
+require('ggplot2')
+require('Matrix')
+require('SparseM')
+require('glmnet')
+require('xtable')
+#require('rhdf5')
+require('expm')
+require('plyr')
+library('lassovar')
+require('doMC')
+
+
+#Sourcing the subs
+source('../subs/data_subs.R')
+source('../subs/rv_subs.R')
+source('../subs/ptf_subs.R')
+source('../subs/tabs_subs.R')
+
+#Knitr global chunk settings, modify at your won risk.
+opts_chunk$set( fig.align='center'
+	       , dev='pdf'
+	       , fig.width=8, fig.height=7, fig.show='hold'
+	       , cache=FALSE
+	       , par=TRUE
+	       , tidy=TRUE
+	       , highlight=TRUE
+	       , echo=FALSE
+	       , eval=TRUE)
+
+@
+
+
+
+
+
+
+<<plt-settings,cache=TRUE>>=
+# Creating the list of diagonal indices for each stock set. 
+nstock     <- 30
+diag.ind	<-rep(0,nstock*(nstock+1)/2)
+diag.ind[cumsum(1:nstock)]	<-1
+
+dates.all	<-tail(read.table('../data/dates')$V1,-1021)
+
+@
+
+
+Here are the models for daily data
+
+<<parxt,cache=TRUE,echo=TRUE,dependson='plt-settings'>>=
+mod.smpl <- matrix(rbind(
+ c('var',1,'Lasso','none','dj.cens.lcov',1000,'none'),
+ c('var',5,'Lasso','none','dj.cens.lcov',1000,'none')
+ ),ncol=7,
+dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+
+parmat <- fc.xtpar(mod.smpl,dates.all=dates.all)
+
+@
+
+
+<<plt-setup,cache=TRUE>>=
+selfreq <- matrix(0,nstock,nstock)  
+
+
+for(fc in 1:length(parmat[[1]])){
+    
+  dm <- as.matrix(parmat[[1]][[fc]])[c(FALSE,diag.ind==1),diag.ind==1]
+  selfreq <- selfreq + (dm!=0)  
+  }
+
+ddsel <- rowSums(selfreq)
+rwsel <- colSums(selfreq)
+
+modind <- 1
+lags <- 1
+
+
+dj  <- read.table('../data/dj-ind')
+dj <- cbind(dj,which(diag.ind==1))
+djn <- dj[,1]
+
+@
+
+<<selhm,cache=TRUE,dependson='plt-setup'>>=
+stkn <- c('AA','IBM','JPM','KO')
+stkind <- dj[which(dj[,1]%in%stkn),3]
+
+mall <- NULL
+
+for(s in 1:length(stkind)){
+  # storage matrix
+  smat <- matrix(NA,lags*nstock,length(parmat[[modind]]))
+  # Construct lag index
+  rind <- FALSE
+  for(l in 1:lags) rind <- c(rind,diag.ind==1)
+  
+  for(fc in 1:length(parmat[[modind]])){
+    smat[,fc] <-t( as.matrix(parmat[[modind]][[fc]])[rind,stkind[s]])
+  }
+  
+  lagind <- rep(1:lags,nstock)
+  Covariates <- rep(as.character(djn),each=lags)
+  
+  smat <- data.frame(cbind(lagind,Covariates,smat!=0))
+  
+  rownames(smat) <- djn
+  colnames(smat)[-c(1,2)] <- as.character(dates.all)
+  msm <- melt(smat,id.vars=c(1,2))
+  msm$value <-factor(msm$value)
+  msm$Date  <-(msm$variable)
+  msm$Stock <- stkn[s]
+  
+  mall <- rbind(mall,msm)
+}
+
+mn <- as.numeric(format(as.Date(dates.all),'%m-%Y'))
+mbrk <- 1 + which(mn[-1]-mn[-length(mn)]!=0)
+
+
+#mall$Date <- as.character(format(as.Date(mall$Date),'%B-%Y'))
+
+dt      <- as.Date(dates.all)
+brkind     <- ceiling(seq(1+15,length(dt)-15,length.out = 5))
+brk  <- as.character(dates.all[brkind])
+brklab  <- as.character(format(as.Date(dates.all[brkind]),'%b %Y'))
+
+levels(mall$value) <- c('Discarded','Selected')
+
+
+p <- ggplot(mall, aes(Date, Covariates)) + geom_tile(aes(fill = value),size=1) + scale_fill_manual(values =c('white','royalblue4'),name = 'Estimated parameter') + facet_wrap(~Stock,ncol=2,scale='free')+ scale_x_discrete(breaks=brk,labels=brklab) 
+ p <- p + theme_bw() + theme(legend.position="bottom")  + theme(axis.text.y=element_text(size=6))  
+print(p)
+@
+
+<<avgselhm,cache=TRUE,dependson='plt-setup',eval=TRUE>>=
+smat <- matrix(0,nstock,length(parmat[[1]]))
+
+for(fc in 1:length(parmat[[1]])){
+  for(stkind in which(diag.ind==1)){
+    smat[,fc] <-smat[,fc] + 1*(t( as.matrix(parmat[[1]][[fc]])[c(FALSE,diag.ind==1),stkind])!=0)
+  }
+}
+smat<- smat / nstock
+
+rownames(smat) <- djn
+colnames(smat) <- as.character(dates.all)
+msm <- melt(smat)
+colnames(msm)[1:2] <- c('Covariates','Date')
+#msm$Date <-as.Date(msm$Date)
+
+
+dt      <- as.Date(dates.all)
+brkind     <- ceiling(seq(1+15,length(dt)-15,length.out = 5))
+brk  <- as.character(dates.all[brkind])
+brklab  <- as.character(format(as.Date(dates.all[brkind]),'%b %Y'))
+
+p <- ggplot(msm, aes(Date, Covariates)) + geom_tile(aes(fill = value),size=1.5) + scale_fill_gradient(low ='white',high='royalblue4',name = 'Selection frequency') 
+p <- p + scale_x_discrete(breaks=brk,labels=brklab)
+ p <- p + theme_minimal() + theme(legend.position="bottom") 
+
+
+print(p)
+@
+
+
+<<avgavgselfreq>>=
+
+print(rowMeans(smat))
+@
+
+
+\end{document}

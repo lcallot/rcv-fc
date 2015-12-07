@@ -1,0 +1,160 @@
+
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor,colortbl}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+% bold rows
+\usepackage{array}
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+% Invisible table columns!
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}% Properly placed sideways table with asmart class. 
+
+\setlength\rotFPtop{0pt plus 1fil} 
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Med}{\mathbb{M}ed}
+\DeclareMathOperator{\Mean}{\mathbb{M}ean}
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+
+\definecolor{LightRed}{rgb}{1,.88,.88}
+\definecolor{LightBlue}{rgb}{.88,.88,1}
+\definecolor{LightGreen}{rgb}{.88,1,.88}
+
+\newtheorem{theorem}{Theorem}
+\begin{document}
+	
+\title{Forecast extraction}   
+\author{LAFC ABK MCM}
+\date{\today}
+\maketitle
+
+<<setup,eval=TRUE,echo=FALSE,cache=FALSE,results='hide',message=FALSE>>=
+#	Loading required libraries. The dependencies should be installed as well. 
+require('reshape2')
+require('ggplot2')
+require('Matrix')
+require('SparseM')
+require('glmnet')
+require('xtable')
+#require('rhdf5')
+require('expm')
+require('plyr')
+library('lassovar')
+require('doMC')
+
+
+#Sourcing the subs
+source('../subs/data_subs.R')
+source('../subs/rv_subs.R')
+source('../subs/ptf_subs.R')
+source('../subs/tabs_subs.R')
+
+#Knitr global chunk settings, modify at your won risk.
+opts_chunk$set( fig.align='center'
+	       , dev='pdf'
+	       , fig.width=8, fig.height=7, fig.show='hold'
+	       , cache=FALSE
+	       , par=TRUE
+	       , tidy=TRUE
+	       , highlight=TRUE
+	       , echo=FALSE
+	       , eval=TRUE)
+
+@
+
+
+
+
+
+
+<<plt-settings,cache=TRUE>>=
+# Creating the list of diagonal indices for each stock set. 
+nstock     <- 30
+diag.ind	<-rep(0,nstock*(nstock+1)/2)
+diag.ind[cumsum(1:nstock)]	<-1
+
+dates.all	<-tail(read.table('../data/dates')$V1,-1021)
+
+djcat <- read.csv('..//data//dj-cat',sep=' ')[,1:3]
+@
+
+
+Here are the models for daily data
+
+<<parxt,cache=TRUE,echo=TRUE,dependson='plt-settings'>>=
+mod.smpl <- matrix(rbind(
+ c('var',1,'Lasso','none','dj.cens.lcov',1000,'none'),
+ c('var',1,'Lasso','none','dj.cens.lcov.W',263,'none'),
+ c('var',1,'Lasso','none','dj.none.lcov.M',60,'none')
+ ),ncol=7,
+dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+
+parmat <- fc.xtpar(mod.smpl,dates.all=NULL)
+
+@
+
+
+<<selfrq-1,cache=TRUE>>=
+eq <- selmat(parmat[[1]],djcat)
+
+cat('diagonal equations')
+print.xtable(xtable(eq$deq),only.contents = TRUE)
+cat('off-diagonal equations')
+print.xtable(xtable(eq$oeq),only.contents = TRUE)
+
+
+@
+
+
+<<selfrq-2,cache=TRUE>>=
+eq <- selmat(parmat[[2]],djcat)
+
+cat('diagonal equations')
+print.xtable(xtable(eq$deq),only.contents = TRUE)
+cat('off-diagonal equations')
+print.xtable(xtable(eq$oeq),only.contents = TRUE)
+
+
+@
+
+
+<<selfrq-3,cache=TRUE>>=
+eq <- selmat(parmat[[3]],djcat)
+
+cat('diagonal equations')
+print.xtable(xtable(eq$deq),only.contents = TRUE)
+cat('off-diagonal equations')
+print.xtable(xtable(eq$oeq),only.contents = TRUE)
+
+
+@
+\end{document}

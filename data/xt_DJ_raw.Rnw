@@ -1,0 +1,136 @@
+
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+\newtheorem{theorem}{Theorem}
+\begin{document}
+	
+\title{Data extraction raw Dow-Jones.}   
+\author{Laurent Callot}
+\date{\today}
+\maketitle
+
+<<init,eval=TRUE,echo=FALSE,cache=FALSE,results='hide',message=FALSE>>=
+#	Loading required libraries. The dependencies should be installed as well. 
+library('reshape2')
+library('ggplot2')
+library('Matrix')
+library('SparseM')
+library('glmnet')
+library('xtable')
+library('rhdf5')
+library('expm')
+
+source('../subs/rv_subs.R')
+source('../subs/data_subs.R')
+#	Knitr global chunk settings, modify at your won risk.
+opts_chunk$set( fig.align='center'
+	       , dev='pdf'
+	       , fig.width=9, fig.height=7, fig.show='hold'
+	       , cache=FALSE
+	       , par=TRUE
+	       , tidy=TRUE
+	       , highlight=TRUE
+	       , echo=FALSE
+	       , eval=TRUE)
+
+@
+
+This file extracts the Dow Jones series, un-transformed and un-censored for the master thesis of Maxime Apeldoorn. We have 1474 daily observations for 465 series which correspond to the unique entries of the covariance matrix of the 30 stocks of the Dow Jones.    
+
+
+The data is a subset of the S\&P 500 realized covariance matrices estimated in Barndorff‐Nielsen, Hansen, Lunde, and Shephard
+(Econometrica 2008), the original data is kindly provided by Asger Lunde.
+
+Let $y_t$ be a row of the data, and $\Sigma_t$ the realized covariance matrix at time $t$, and $\sigma_{t,i,j}$ the entry at the $i^{th}$ row and $j^{th}$ column of $\Sigma_t$. Note that by symmetry $\sigma_{t,i,j}=\sigma_{t,j,i}$.  We have $n=30$ stocks so that $\Sigma_t$ is $[n\times n]$ and $y_t$ has length $\frac{n(n+1)}{2}$. $y_t$ is constructed as $y_t=vech(\Sigma_t)$, meaning that:
+\begin{align*}
+y_t = [\sigma_{t,1,1},\sigma_{t,1,2},\sigma_{t,2,2},\sigma_{t,1,3},...,\sigma_{t,n-1,n},\sigma_{t,n,n}].
+\end{align*}
+
+
+The data comprises 3 files:
+\begin{enumerate}
+  \item \texttt{dj\_crk\_raw.txt} is a plain text files containing 1474 rows of values separated by spaces. Each row contains a date in the format YYYY-MM-DD followed by a $y_t$. 
+  \item \texttt{dj\_crk\_dates.txt} a plain text file containing a single column with the dates. 
+  \item \texttt{dj\_crk\_names.txt} contains the ticker for each of the 30 stocks in the order in which they appear in $\Sigma_t$ as well as information on the industry categories to which they belong.  
+\end{enumerate}
+
+
+<<sel-dj,cache=TRUE,echo=FALSE>>=
+#	An Matrix dataset specifications. Can be modified by adding or removing rows of the appropriate size. 
+#	Row format: censoring (none, cens), transformation (none, lcov, lmat), stock.sel (test, dj).
+data.smpl <- matrix(rbind(
+	c('dj','none','none')
+	),ncol=3,
+	dimnames=c(list('Data'=NULL,'spec'=c('Stocks','Censoring','Transformation'))))
+
+# No censoring
+bad.scale	<-0	# nbr std deviations used as censoring threshold.
+bad.share	<-0	# Share variables above the scale.
+
+#	Path of the raw data:
+dat.path <- 'CRK_corrected.mat'
+
+#Printing the sample matrix
+print(data.smpl)
+
+# Extracting the data.
+time.save <- system.time(save.CRK(data.smpl,bad.scale,bad.share,dat.path))
+cat('\n Time used to generate the files, in seconds: \n')
+cat(time.save[1])
+@
+
+
+
+<<gen-dj,cache=TRUE,dependson='sel-data'>>=
+# Load the data file
+load('CRK-har-dj-none-none')
+# Get a subset
+dj <- CRK.har.dj.none.none$d
+# Get the corresponding dates. 
+dates   <-tail(read.table('dates')$V1,-21)
+# setting them as row names:
+rownames(dj) <- dates
+
+# loading and cleaning the category file
+djcat <- read.table('dj-cat')[,c(2,3,5,7)]
+
+
+# Saving in a plain text format
+write.table(dj,file='dj_crk_raw.txt',row.names=TRUE,col.names=FALSE)
+# Also writting the dates
+write.table(dates,file='dj_crk_dates.txt',row.names=FALSE,col.names = FALSE)
+# And writting the categories
+write.table(djcat,file='dj_crk_names.txt',row.names=FALSE,col.names = FALSE)
+@
+
+
+
+\end{document}

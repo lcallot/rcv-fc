@@ -1,0 +1,292 @@
+
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor,colortbl}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+% bold rows
+\usepackage{array}
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+% Invisible table columns!
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}% Properly placed sideways table with asmart class. 
+
+\setlength\rotFPtop{0pt plus 1fil} 
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Med}{\mathbb{M}ed}
+\DeclareMathOperator{\Mean}{\mathbb{M}ean}
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+
+\definecolor{LightRed}{rgb}{1,.88,.88}
+\definecolor{LightBlue}{rgb}{.88,.88,1}
+\definecolor{LightGreen}{rgb}{.88,1,.88}
+
+\newtheorem{theorem}{Theorem}
+\begin{document}
+	
+\title{Forecast extraction}   
+\author{LAFC ABK MCM}
+\date{\today}
+\maketitle
+
+<<setup,eval=TRUE,echo=FALSE,cache=FALSE,results='hide',message=FALSE>>=
+#	Loading required libraries. The dependencies should be installed as well. 
+require('reshape2')
+require('ggplot2')
+require('Matrix')
+require('SparseM')
+require('glmnet')
+require('xtable')
+#require('rhdf5')
+require('expm')
+require('plyr')
+library('lassovar')
+require('doMC')
+require(gridExtra)
+
+
+#Sourcing the subs
+source('../subs/data_subs.R')
+source('../subs/rv_subs.R')
+source('../subs/ptf_subs.R')
+source('../subs/tabs_subs.R')
+source('../subs/data_subs.R')
+
+#Knitr global chunk settings, modify at your won risk.
+opts_chunk$set( fig.align='center'
+	       , dev='pdf'
+	       , fig.width=8, fig.height=7, fig.show='hold'
+	       , cache=FALSE
+	       , par=TRUE
+	       , tidy=TRUE
+	       , highlight=TRUE
+	       , echo=FALSE
+	       , eval=TRUE)
+
+@
+
+
+
+
+
+
+<<lambda-settings,cache=TRUE>>=
+# Creating the list of diagonal indices for each stock set. 
+nstock     <- 30
+diag.ind	<-rep(0,nstock*(nstock+1)/2)
+diag.ind[cumsum(1:nstock)]	<-1
+
+dates.all   <-tail(read.table('../data/dates')$V1,-1021)
+dates.full  <-read.table('../data/dates')$V1
+dates.short <-head(tail(read.table('../data/dates')$V1,-1021),-19)
+@
+
+
+Here are the models for daily data
+
+<<lambdaxt,cache=TRUE,echo=TRUE,dependson='lambda-settings'>>=
+mod.smpl <- matrix(rbind(
+ c('var',1,'Lasso','none','dj.cens.lcov',1000,'none'),
+ c('var',20,'Lasso','none','dj.cens.lcov',1000,'none'),
+ c('var',1,'Lasso','none','dj.cens.lmat',1000,'none')
+ ),ncol=7,
+dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+
+# extracting:
+# parameters
+parmat <- fc.xtpar(mod.smpl,dates.all=dates.all)
+# fc errors
+err <- fc.xterr(mod.smpl,diag.ind=diag.ind,dates.all=dates.all)
+# lambda
+lmbdlst <- fc.xtlambda(mod.smpl,dates.all=dates.all)
+
+@
+
+<<lambdamelt,cache=TRUE,echo=TRUE,dependson='lambdaxt',eval=FALSE>>=
+
+fbn<-function(err,diag.ind) frobenius<-aaply(err,c(3),function(x)(return( cbind(sqrt(rowSums(x[,diag.ind==1]^2)),sqrt(rowSums(x[,diag.ind==0]^2)))  )))
+
+froberr <- list()
+
+for(nm in c(1:4)){
+  frob <- fbn(err[[nm]],diag.ind=diag.ind)[1,,]
+  colnames(frob) <- c('Diagonal','Off Diagonal')
+  rownames(frob) <- dates.short
+  froberr[[nm]] <- frob
+}
+froberr <- froberr[c(1,3)]
+
+names(froberr) <- c('VAR(1)','VAR(20)')
+
+mfrb <- melt(froberr)
+colnames(mfrb) <- c('Date','type','value','Model')
+mfrb$stat <- 'l[2]'
+
+
+lalst <- list()
+for(nm in names(lmbdlst)){
+  lmbd <- lmbdlst[[nm]]
+  lalst[[nm]] <- cbind(rowMeans(lmbd),rowMeans(lmbd[,diag.ind==1]),rowMeans(lmbd[,diag.ind==0])) 
+  
+  colnames(lalst[[nm]]) <- c('All','Diagonal','Off Diagonal')
+  rownames(lalst[[nm]]) <- dates.all
+}
+names(lalst) <- c('VAR(1)','VAR(20)')
+
+mlbd <- melt(lalst)
+mlbd$stat <- 'lambda'
+colnames(mlbd) <- c('Date','type','value','Model','stat')
+
+mlbd <- rbind(mlbd,mfrb)
+#mlbd$Date <- as.Date(mlbd$Date)
+
+@
+
+
+
+<<lambda-plt,cache=TRUE,fig.height=4,eval=FALSE>>=
+source('../subs//plot_subs.R')
+
+dt      <- as.Date(dates.all)
+brkind     <- ceiling(seq(1+35,length(dt)-35,length.out = 4))
+brk  <- as.character(dates.all[brkind])
+brklab  <- as.character(format(as.Date(dates.all[brkind]),'%b %Y'))
+
+glmbd <- ggplot(subset(mlbd,(type!='All')),aes(y=value,x=Date,colour=type,group=type))+  geom_line() + facet_wrap( ~ Model + stat ,scales='free',ncol=2) +   theme_bw() + theme(legend.position="bottom") + scale_x_discrete(breaks=brk,labels=brklab) + scale_colour_manual(values = c('steelblue','firebrick'))
+
+
+# Hard coded labels (boooo) for the facets
+	labexp <- c(as.expression(VAR(1)~l[2]),
+              as.expression(VAR(1)~lambda),
+              as.expression(VAR(20)~l[2]),
+              as.expression(VAR(20)~lambda))
+
+glmbd <- facet_wrap_labeller(glmbd,labels = labexp)
+glmbd
+ggsave(filename = 'lambda.pdf',glmbd,width=18,height=10,units='cm')
+@
+
+
+
+
+<<xtpars,cache=TRUE>>=
+parlst <- fc.xtpar(mod.smpl[1:2,],dates.all=dates.all)
+
+mdmlst <- list()
+for(nm in names(parlst)){
+  par <- parlst[[nm]]
+  mdm <- matrix(NA,nrow=length(par),ncol=2)
+  for(i in 1:length(par)){
+    mdm[i,] <- c( mean(colSums(par[[i]][-1,diag.ind==1]!=0)),mean(colSums(par[[i]][-1,diag.ind==0]!=0)) )
+  }
+  colnames(mdm) <- c('Diagonal','Off Diagonal')
+  rownames(mdm) <- dates.all
+  mdmlst[[nm]] <- mdm
+}
+
+names(mdmlst) <- c('VAR(1), Lasso','VAR(20), Lasso')
+mmd <- melt(mdmlst)
+colnames(mmd) <- c('Date','Equations','value','Model')
+
+@
+
+
+
+<<moddim-plt,cache=TRUE,dependson='xtpars',fig.height=4>>=
+
+dt      <- as.Date(dates.all)
+brkind     <- ceiling(seq(1+35,length(dt)-35,length.out = 4))
+brk  <- as.character(dates.fc[brkind])
+brklab  <- as.character(format(as.Date(dates.fc[brkind]),'%b %Y'))
+
+
+	gw<-ggplot(mmd,aes(x=Date,y=value,group=Equations,colour=Equations)) + geom_point(aes(shape = Equations),size=1)
+  gw <- gw + facet_wrap( ~ Model + Equations,scale='free',ncol=2)+ scale_colour_manual(values = c('steelblue','firebrick'))
+  gw <- gw + theme_bw() + theme(legend.position='none') 
+  gw <- gw + ylab(' Model size (average across equations)') + scale_x_discrete(breaks=brk,labels=brklab)
+  gw <- gw + stat_smooth(data=mmd,se=TRUE,colour='black',level=0.99,method='loess') 
+
+  print(gw)
+ggsave(filename = 'moddim.pdf',gw,width=18,height=10,units='cm')
+
+@
+
+
+
+
+<<selstab,cache=TRUE,dependson='lambdaxt'>>=
+dates.fc <- dates.all
+
+mstab <- NULL
+modn <- c('VAR(1), Lasso','VAR(20), Lasso','VAR(1), Lasso, Matrix logarithm')
+
+for(modind in 1:nrow(mod.smpl)){
+  # Computing changes in parameter value
+  stabmat <- matrix(NA,ncol=2,nrow=length(parmat[[modind]])-1)
+  
+  for(fc in 2:length(parmat[[modind]])){
+      tmp <- abs( sign(as.matrix(parmat[[modind]][[fc-1]])[-1,]) - sign(as.matrix(parmat[[modind]][[fc]])[-1,]))
+      stabmat[fc-1,] <- c(mean(tmp[,diag.ind==1]),mean(tmp[,diag.ind==0]))
+    }
+  colnames(stabmat) <- c('Diagonal','Off Diagonal')
+  rownames(stabmat) <- dates.fc[-1]  
+    
+  mstab <- rbind(mstab,cbind(modn[modind],melt(stabmat)))
+}
+colnames(mstab) <- c('Model','Date','Type','value')
+mstab$Date <- as.character(mstab$Date) # proper Date labels added manually later
+mstab$value <- 100*mstab$value # In percentage
+# Date breaks
+dt      <- as.Date(dates.fc)
+brkind     <- ceiling(seq(1+35,length(dt)-35,length.out = 4))
+brk  <- as.character(dates.fc[brkind])
+brklab  <- as.character(format(as.Date(dates.fc[brkind]),'%b %Y'))
+
+
+p <- ggplot(mstab, aes(x=Date, y=value, group = Type)) + 
+  geom_point(aes(shape=Type,colour=Type),size=1) + 
+  scale_colour_manual(values = c('steelblue','firebrick')) + 
+  facet_wrap(~Model + Type ,ncol=2,scale='free') +
+  theme_bw() + 
+  theme(legend.position="none")  + 
+  theme(axis.text.y=element_text(size=6))  +
+  ylab('Parameter classification change (%)') + 
+  scale_x_discrete(breaks=brk,labels=brklab) + 
+  stat_smooth(data=mstab,se=TRUE,colour='black',level=0.99,method='loess')
+
+print(p)
+
+ggsave(filename = 'sel_stab.pdf',p,width=18,height=12,units='cm')
+@
+
+
+
+\end{document}

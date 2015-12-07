@@ -1,0 +1,120 @@
+
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+\newtheorem{theorem}{Theorem}
+\begin{document}
+	
+\title{Data extraction RCV.}   
+\author{LAFC ABK MCM}
+\date{\today}
+\maketitle
+
+<<init,eval=TRUE,echo=FALSE,cache=FALSE,results='hide'>>=
+#	Loading required libraries. The dependencies should be installed as well. 
+library('reshape2')
+library('ggplot2')
+library('Matrix')
+library('SparseM')
+library('glmnet')
+library('xtable')
+library('rhdf5')
+library('expm')
+library('plyr')
+
+source('../subs/rv_subs.R')
+source('../subs/data_subs.R')
+#	Knitr global chunk settings, modify at your won risk.
+opts_chunk$set( fig.align='center'
+	       , dev='pdf'
+	       , fig.width=9, fig.height=7, fig.show='hold'
+	       , cache=FALSE
+	       , par=TRUE
+	       , tidy=TRUE
+	       , highlight=TRUE
+	       , echo=FALSE
+	       , eval=TRUE)
+
+@
+
+This file (the source {\tt .Rnw} version of it) contains the setting for data generation. As can be seen below I generate 8 data sets. From the raw data I consider two subsets: the dow-jones stocks (dj) and a small sample of the 5 first stock (test). for each subset I save a censored and an uncensored version for both log-matrix and covariance transformations.   
+<<sel-data,cache=TRUE,echo=FALSE>>=
+
+#  An Matrix dataset specifications. Can be modified by adding or removing rows of the appropriate size. 
+#	Row format: censoring (none, cens), transformation (none, lcov, lmat), stock.sel (test, dj).
+data.smpl <- matrix(rbind(
+	c('dj','cens','lmat'),
+	c('dj','cens','lcov'),
+	c('dj','none','lmat'),
+	c('dj','none','lcov'),
+	c('test','cens','lmat'),
+	c('test','cens','lcov'),
+	c('test','none','lcov'),
+	c('test','none','lmat')
+	),ncol=3,
+	dimnames=c(list('Data'=NULL,'spec'=c('Stocks','Censoring','Transformation'))))
+
+#	Setting the censoring critria.
+bad.scale	<-4	# nbr std deviations used as censoring threshold.
+bad.share	<-0.25	# Share variables above the scale.
+
+#	Path of the raw data:
+dat.path <- 'CRK_corrected.mat'
+
+#Printing the sample matrix
+print(data.smpl)
+@
+
+
+<<ndays-agg,echo=TRUE,cache=TRUE,dependson='sel-data'>>=
+# Get the dates	
+dates <- read.table('dates')$V1
+week  <- strftime(dates,format='%Y-%W')
+month <- strftime(dates,format='%Y-%m')
+
+cat(length(unique(week)),' weeks and ',length(unique(month)),' months\n',sep='')
+
+# Distribution of the number of days per week and month
+print(table(table(week)))
+print(table(table(month)))
+@
+
+<<gen-data,cache=TRUE,dependson='sel-data'>>=
+
+time.save <- system.time(agg.CRK(data.smpl,bad.scale,bad.share,dat.path))
+cat('\n Time used to generate the files, in seconds: \n')
+cat(time.save[1])
+
+
+@
+
+
+
+\end{document}

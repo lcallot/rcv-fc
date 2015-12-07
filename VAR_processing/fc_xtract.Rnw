@@ -1,0 +1,219 @@
+
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor,colortbl}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+% bold rows
+\usepackage{array}
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+% Invisible table columns!
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}% Properly placed sideways table with asmart class. 
+
+\setlength\rotFPtop{0pt plus 1fil} 
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Med}{\mathbb{M}ed}
+\DeclareMathOperator{\Mean}{\mathbb{M}ean}
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+
+\definecolor{LightRed}{rgb}{1,.88,.88}
+\definecolor{LightBlue}{rgb}{.88,.88,1}
+\definecolor{LightGreen}{rgb}{.88,1,.88}
+
+\newtheorem{theorem}{Theorem}
+\begin{document}
+	
+\title{Forecast extraction}   
+\author{LAFC ABK MCM}
+\date{\today}
+\maketitle
+
+<<setup,eval=TRUE,echo=FALSE,cache=FALSE,results='hide',message=FALSE>>=
+#	Loading required libraries. The dependencies should be installed as well. 
+require('reshape2')
+require('ggplot2')
+require('Matrix')
+require('SparseM')
+require('glmnet')
+require('xtable')
+#require('rhdf5')
+require('expm')
+require('plyr')
+library('lassovar')
+require('doMC')
+
+
+#Sourcing the subs
+source('../subs/data_subs.R')
+source('../subs/rv_subs.R')
+source('../subs/ptf_subs.R')
+source('../subs/tabs_subs.R')
+
+#Knitr global chunk settings, modify at your won risk.
+opts_chunk$set( fig.align='center'
+	       , dev='pdf'
+	       , fig.width=8, fig.height=7, fig.show='hold'
+	       , cache=FALSE
+	       , par=TRUE
+	       , tidy=TRUE
+	       , highlight=TRUE
+	       , echo=FALSE
+	       , eval=TRUE)
+
+
+@
+
+
+
+This documents contains the code used to extract the forecasts and save them as csv files, and more importantly a description of the exact content of the files.
+
+The forecasts are saved with the series in columns and the forecast periods in rows. The covariance matrix is half-vectorized, and the entries are concatenated by columns so that the columns in each matrix are: var1, cov12, var2, cov13, cov23, var3, ... The rows are indexed by dates corresponding to the forecasted day (not the day at which the forecast was computed). Note that in the case of aggregated data, the date is formed by the week/month number and the year. 
+
+
+All predicted and observed series are transformed backward when some transformation has been applied onto them.
+
+The name of the file contains all the information relative to the model and the data. The names are rather long, here is a description.
+\begin{itemize}
+\item The first word indicates whether the file contains predicted or observed values.
+\item The second one, e.g. $h1$, is the horizon of the forecasts. 
+\item Following this, roll indicates that these are forecasts from a Lasso or adaptive Lasso, post indicates that this is the post (adaptive) Lasso OLS forecasts. 
+\item Then the model (\textit{var} (also include AR models, see below) or \textit{NoChange}) and the number of lags
+\item The estimator and initial estimator if any (none otherwise) so that a plain Lasso is \textit{Lasso.none} and an adaptive Lasso with Lasso as the initial estimator is \textit{Lasso.lasso}. 
+\item \textit{dj} indicates that we are working on the Dow Jones, censoring or lack thereof is indicated by \textit{cens} or \textit{none}.
+\item The transformation comes after that (always \textit{lcov}). If a \textit{W} or a \textit{M} are present afterwards, then the data is aggregated at the weekly or monthly level. 
+\item The following number is the length of the training sample before removing the initial observations.  
+\item If the last word is \textit{ar} the the estimated model was an autoregression. 
+\end{itemize}
+
+
+<<xtract-settings,cache=TRUE>>=
+ncores <- 16
+horizon		<-1
+fc.window	<-'fix'
+crit		<-'BIC'
+
+hmax <- 1
+
+# Creating the list of diagonal indices for each stock set. 
+nstock     <- 30
+diag.ind	<-rep(0,nstock*(nstock+1)/2)
+diag.ind[cumsum(1:nstock)]	<-1
+dates.all	<-tail(read.table('../data/dates')$V1,-1021)
+@
+
+
+Here are the models for daily data
+
+<<xtract-smpl,cache=TRUE,echo=TRUE,dependson='xtract-settings'>>=
+mod.smpl <- matrix(rbind(
+  #No Change
+ c('NoChange',NA,'','none','dj.none.lcov',1000,'none'),
+ c('NoChange',NA,'','none','dj.cens.lcov',1000,'none'),
+ # VARs
+ c('var',1,'Lasso','none','dj.cens.lcov',1000,'none'),
+ c('var',5,'Lasso','none','dj.cens.lcov',1000,'none'),
+ c('var',10,'Lasso','none','dj.cens.lcov',1000,'none'),
+ c('var',20,'Lasso','none','dj.cens.lcov',1000,'none'),
+ # ARs
+ c('var',1,'Lasso','none','dj.cens.lcov',1000,'ar'),
+ c('var',5,'Lasso','none','dj.cens.lcov',1000,'ar'),
+ c('var',10,'Lasso','none','dj.cens.lcov',1000,'ar')
+ ),ncol=7,
+dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+#update
+mod.smpl <- matrix(rbind(
+ c('var',1,'Lasso','lasso','dj.cens.lcov',1000,'none'),
+ c('var',20,'Lasso','lasso','dj.cens.lcov',1000,'none')
+ ),ncol=7,
+dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+@
+
+
+
+<<xtract-fc,cache=TRUE,dependson='xtract-smpl',eval=FALSE>>=
+
+# Computing the recursive forecasts
+fc.xtract(mod.smpl,h=5,diag.ind=diag.ind,dates.all=dates.all)
+@
+
+
+<<xtract-smpl-W,cache=TRUE,echo=TRUE,dependson='xtract-settings'>>=
+mod.smpl.W <- matrix(rbind(
+ # No change with both transformation. 
+ #c('NoChange',NA,'','none','dj.none.lcov.W',263,'none'),
+ c('NoChange',NA,'','none','dj.cens.lcov.W',263,'none'),
+ # A few VAR
+ c('var',1,'Lasso','lasso','dj.cens.lcpd.W',263,'none'),
+ c('var',5,'Lasso','lasso','dj.cens.lcpd.W',263,'none'),
+ # A few censored VAR
+ c('var',1,'Lasso','none','dj.cens.lcpd.W',263,'none'),
+ c('var',5,'Lasso','none','dj.cens.lcpd.W',263,'none')
+ ),ncol=7,
+dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+# And week dates:
+
+dates.W<-read.table('../data/dates')$V1
+dates.W <- tail(unique(format(as.Date(dates.W),'%Y-%W')),-(263+25))
+@
+
+<<xtract-fc-W,cache=TRUE,dependson='xtract-smpl-W'>>=
+# Computing the recursive forecasts
+fc.xtract(mod.smpl.W,h=1,diag.ind=diag.ind,dates.all=dates.W)
+
+@
+
+
+<<xtract-smpl-M,cache=TRUE,echo=TRUE,dependson='xtract-settings'>>=
+mod.smpl.M <- matrix(rbind(
+c('NoChange',NA,'','none','dj.none.lcpd.M',60,'none'),
+#VARs
+c('var',1,'Lasso','none','dj.none.lcpd.M',60,'none'),
+c('var',1,'Lasso','lasso','dj.none.lcpd.M',60,'none'),
+c('var',5,'Lasso','none','dj.none.lcpd.M',60,'none'),
+c('var',5,'Lasso','lasso','dj.none.lcpd.M',60,'none')
+),ncol=7,
+dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+# And month dates:
+dates.M <- read.table('../data/dates')$V1
+dates.M <- tail(unique(format(as.Date(dates.M),'%Y-%m')),-65)
+
+@
+
+<<xtract-fc-M,cache=TRUE,dependson='xtract-smpl-M'>>=
+fc.xtract(mod.smpl.M,h=6,diag.ind=diag.ind,dates.all=dates.M)
+@
+
+
+\end{document}

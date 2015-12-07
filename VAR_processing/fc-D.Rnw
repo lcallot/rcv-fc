@@ -1,0 +1,179 @@
+
+\documentclass[11pt,oneside, a4paper]{amsart}
+\usepackage{natbib}
+
+\usepackage{amsbsy,amsmath}
+\usepackage{amssymb,amsfonts}
+\usepackage{bbm}%give 1 with dbl vertical bar 
+\usepackage{booktabs,url,enumerate}
+\usepackage{color,xcolor,colortbl}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{rotating,graphicx,lscape}
+\usepackage{commath}
+\usetikzlibrary{arrows,positioning} 
+\usepackage[hypcap]{caption}
+\newcommand{\sgn}{\mathrm{sign}}
+\usepackage{setspace}
+
+% bold rows
+\usepackage{array}
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+% Invisible table columns!
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}% Properly placed sideways table with asmart class. 
+
+\setlength\rotFPtop{0pt plus 1fil} 
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=3.0cm, right=3.0cm]{geometry}
+
+\DeclareMathOperator{\Med}{\mathbb{M}ed}
+\DeclareMathOperator{\Mean}{\mathbb{M}ean}
+\DeclareMathOperator{\Cov}{\mathbb{C}ov}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\nid}{NID}
+\DeclareMathOperator{\N}{\mathcal{N}}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\diag}{diag}
+\onehalfspace
+
+
+\definecolor{LightRed}{rgb}{1,.88,.88}
+\definecolor{LightBlue}{rgb}{.88,.88,1}
+\definecolor{LightGreen}{rgb}{.88,1,.88}
+
+\newtheorem{theorem}{Theorem}
+\begin{document}
+	
+\title{Dow-Jones Forecasting.}   
+\author{LAFC ABK MCM}
+\date{\today}
+\maketitle
+
+<<fc-long-init-D,eval=TRUE,echo=FALSE,cache=FALSE,results='hide'>>=
+#	Loading required libraries. The dependencies should be installed as well. 
+require('reshape2')
+require('ggplot2')
+require('Matrix')
+require('SparseM')
+require('glmnet')
+require('xtable')
+#require('rhdf5')
+require('expm')
+require('plyr')
+library('lassovar')
+require('doMC')
+
+
+#Sourcing the subs
+source('../subs/plot_subs.R')
+source('../subs/rv_subs.R')
+source('../subs/ptf_subs.R')
+source('../subs/tabs_subs.R')
+
+#Knitr global chunk settings, modify at your won risk.
+opts_chunk$set( fig.align='center'
+	       , dev='pdf'
+	       , fig.width=8, fig.height=7, fig.show='hold'
+	       , cache=FALSE
+	       , par=TRUE
+	       , tidy=TRUE
+	       , highlight=TRUE
+	       , echo=FALSE
+	       , eval=TRUE)
+
+
+@
+
+This file (the source {\tt .Rnw} version of it) contains the code necessary to replicate the forecasting and model evaluation results.
+
+I am going to estimate a small variety of models on the Dow-Jones data, but compute only 474 forecasts.  Another document using a more wider set of models and computing much fewer of forecasts has also been created. 
+The chunk below sets some estimation parameters and defines the model specifications that will be estimated. 
+
+<<fc-long-mc-settings-D,cache=TRUE>>=
+ncores <- 2
+registerDoMC(cores=ncores)
+horizon		<-1
+fc.window	<-'fix'
+crit		<-'BIC'
+
+hsel <- c(1,5,10,20)
+
+# Creating the list of diagonal indices for each stock set. 
+nstock     <- 30
+diag.ind	<-rep(0,nstock*(nstock+1)/2)
+diag.ind[cumsum(1:nstock)]	<-1
+dates.all	<-read.table('../data/dates')$V1
+@
+
+
+<<fc-long-sel-dat-mod-D,cache=TRUE,echo=FALSE,dependson='fc-long-mc-settings-D'>>=
+
+mod.smpl <- matrix(rbind(
+  		    # No change  
+	
+  		 #c('NoChange',NA,'','none','dj.none.lcov',1000,'none'),
+  		 #c('NoChange',NA,'','none','dj.cens.lcov',1000,'none'),
+			 c('var',1,'Lasso','none','dj.cens.lcov',1000,'none')
+			 #c('var',1,'Lasso','none','dj.none.lcov',1000,'none'),
+			 #c('var',1,'Lasso','ols','dj.cens.lcov',1000,'none'),
+			 #c('var',1,'Lasso','lasso','dj.cens.lcov',1000,'none')
+			 ),ncol=7,
+			dimnames=c(list('Model'=NULL,'spec'=c('Model','Lag','Estimator','Adaptive','Data','Est.smpl','Restrictions'))))
+
+
+@
+
+
+Now that the models are selected and the estimation parameters set, we can estimate them. Below we estimate and forecast with the set of models defined above.
+
+
+
+<<roll-forecast-D,cache=TRUE,dependson='fc-long-sel-dat-mod-D'>>=
+mod.smpl.all<- rbind(mod.smpl)#,mod.smpl2)
+
+# Computing the recursive forecasts
+fc.roll(mod.smpl.all,hmax=20,diag.ind=diag.ind)
+@
+
+
+
+
+<<mk-stattab-D,dependson='roll-forecast-D',cache=TRUE>>=
+hsel <- c(1,5,20)
+fctab <- roll.stattab(mod.smpl.all,diag.ind=diag.ind,hsel=hsel)
+mstat  <- melt(fctab)
+
+@
+
+<<mk-astat-D,dependson='roll-forecast-D',cache=TRUE>>=
+
+astat <- acast(mstat,model + h~ stat + diag) 
+
+rn <- unlist(strsplit(rownames(astat),split='_'))
+astat <- cbind(rn[(1:(length(rn)/2))*2-1],rn[((1:(length(rn)/2))*2)],astat)
+colnames(astat)[c(1,2)] <- c('Model','Horizon')
+
+
+@
+
+
+
+<<prt-stattab-D,results='asis',cache=TRUE,dependson='mk-stattab-D'>>=
+coltype<-rep('H',ncol(astat))
+
+coltype[c(2,9,10,11,12,13,14,15,16,17)]<-'r'
+coltype[1]<-'l'
+stat.n <- c('beat bmk','RMAFE','Med AFE','Max AFE','frobenius')
+catstattab(astat,coltype,stat.n,hsel)
+
+@
+
+
+\end{document}

@@ -1,0 +1,625 @@
+STOCK,INDUSTRY_SECTOR,INDUSTRY_SECTOR_NUM,INDUSTRY_GROUP,INDUSTRY_GROUP_NUM,INDUSTRY_SUBGROUP,INDUSTRY_SUBGROUP_NUM
+JAVA ,Technology,10013,Computers,20106,Computers,668
+ORCL ,Technology,10013,Software,20109,Enterprise Software/Serv,644
+MSFT ,Technology,10013,Software,20109,Applications Software,422
+AYE ,Utilities,10014,Electric,20110,Electric-Integrated,265
+TROW ,Financial,10008,Diversified Finan Serv,20054,Invest Mgmnt/Advis Serv,303
+HON ,Industrial,10011,Electronics,20081,Instruments-Controls,197
+EMC ,Technology,10013,Computers,20106,Computers-Memory Devices,245
+FO ,"Consumer, Non-cyclical",10005,Beverages,20036,Beverages-Wine/Spirits,167
+LLTC ,Technology,10013,Semiconductors,20108,Semicon Compo-Intg Circu,658
+GENZ ,"Consumer, Non-cyclical",10005,Biotechnology,20037,Medical-Biomedical/Gene,252
+ADM ,"Consumer, Non-cyclical",10005,Agriculture,20035,Agricultural Operations,78
+SOV ,Financial,10008,Savings&Loans,20059,S&L/Thrifts-Eastern US,151
+FISV ,Technology,10013,Software,20109,Data Processing/Mgmt,424
+BC ,"Consumer, Cyclical",10004,Leisure Time,20028,Leisure&Rec Products,40
+UIS ,Technology,10013,Computers,20106,Computer Services,251
+CERN ,Technology,10013,Software,20109,Medical Information Sys,427
+CMVT ,Communications,10003,Telecommunications,20017,Telecommunication Equip,262
+DELL ,Technology,10013,Computers,20106,Computers,668
+KO ,"Consumer, Non-cyclical",10005,Beverages,20036,Beverages-Non-alcoholic,81
+ED ,Utilities,10014,Electric,20110,Electric-Integrated,265
+CELG ,"Consumer, Non-cyclical",10005,Biotechnology,20037,Medical-Biomedical/Gene,252
+XRAY ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Dental Supplies&Equip,129
+DCN ,"Consumer, Cyclical",10004,Auto Parts&Equipment,20021,Auto/Trk Prts&Equip-Orig,28
+FAST ,"Consumer, Cyclical",10004,Distribution/Wholesale,20022,Distribution/Wholesale,51
+DTE ,Utilities,10014,Electric,20110,Electric-Integrated,265
+DD ,Basic Materials,10002,Chemicals,20010,Chemicals-Diversified,1
+EK ,Industrial,10011,Miscellaneous Manufactur,20088,Photo Equipment&Supplies,227
+ETN ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+XOM ,Energy,10007,Oil&Gas,20048,Oil Comp-Integrated,136
+MXIM ,Technology,10013,Semiconductors,20108,Semicon Compo-Intg Circu,658
+WMI ,Industrial,10011,Environmental Control,20083,Non-hazardous Waste Disp,354
+APCC ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Inactive/Unknown,645
+BMC ,Technology,10013,Software,20109,Enterprise Software/Serv,644
+GD ,Industrial,10011,Aerospace/Defense,20078,Aerospace/Defense,240
+GE ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+LH ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical Labs&Testing Srv,394
+NVLS ,Technology,10013,Semiconductors,20108,Semiconductor Equipment,660
+PBCT ,Financial,10008,Savings&Loans,20059,S&L/Thrifts-Eastern US,151
+GM ,"Consumer, Cyclical",10004,Auto Manufacturers,20020,Auto-Cars/Light Trucks,25
+GR ,Industrial,10011,Aerospace/Defense,20078,Aerospace/Defense-Equip,241
+IR ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+IBM ,Technology,10013,Computers,20106,Computer Services,251
+NAV ,"Consumer, Cyclical",10004,Auto Manufacturers,20020,Auto-Med&Heavy Duty Trks,26
+ITT ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+MYG ,Funds,10009,Equity Fund,20066,Index Fund,812
+PCG ,Utilities,10014,Electric,20110,Electric-Integrated,265
+PGL ,Utilities,10014,Gas,20111,Gas-Distribution,269
+PEP ,"Consumer, Non-cyclical",10005,Beverages,20036,Beverages-Non-alcoholic,81
+MO ,"Consumer, Non-cyclical",10005,Agriculture,20035,Tobacco,132
+COP ,Energy,10007,Oil&Gas,20048,Oil Comp-Integrated,136
+AMGN ,"Consumer, Non-cyclical",10005,Biotechnology,20037,Medical-Biomedical/Gene,252
+SLB ,Energy,10007,Oil&Gas Services,20049,Oil-Field Services,142
+ANDW ,Communications,10003,Telecommunications,20017,Telecommunication Equip,262
+CVX ,Energy,10007,Oil&Gas,20048,Oil Comp-Integrated,136
+AAPL ,Technology,10013,Computers,20106,Computers,668
+SUN ,Energy,10007,Oil&Gas,20048,Oil Refining&Marketing,138
+AMAT ,Technology,10013,Semiconductors,20108,Semiconductor Equipment,660
+MRO ,Energy,10007,Oil&Gas,20048,Oil Comp-Integrated,136
+UST ,Funds,10009,Debt Fund,20067,Govt/Agency-Inter Term,833
+VMC ,Basic Materials,10002,Mining,20013,Quarrying,18
+WWY ,"Consumer, Non-cyclical",10005,Food,20040,Food-Confectionery,105
+RSH ,"Consumer, Cyclical",10004,Retail,20031,Retail-Consumer Electron,60
+TXN ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+WYE ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+EIX ,Utilities,10014,Electric,20110,Electric-Integrated,265
+GT ,"Consumer, Cyclical",10004,Auto Parts&Equipment,20021,Rubber-Tires,30
+HSY ,"Consumer, Non-cyclical",10005,Food,20040,Food-Confectionery,105
+KR ,"Consumer, Non-cyclical",10005,Food,20040,Food-Retail,111
+CVS ,"Consumer, Cyclical",10004,Retail,20031,Retail-Drug Store,63
+GIS ,"Consumer, Non-cyclical",10005,Food,20040,Food-Misc/Diversified,110
+MHP ,Communications,10003,Media,20016,Publishing-Books,47
+KMB ,"Consumer, Non-cyclical",10005,Household Products/Wares,20043,Consumer Products-Misc,124
+PD ,Basic Materials,10002,Mining,20013,Metal-Copper,13
+UTX ,Industrial,10011,Aerospace/Defense,20078,Aerospace/Defense-Equip,241
+HPC ,Basic Materials,10002,Chemicals,20010,Chemicals-Specialty,4
+BMET ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Products,117
+PG ,"Consumer, Non-cyclical",10005,Cosmetics/Personal Care,20039,Cosmetics&Toiletries,100
+JCP ,"Consumer, Cyclical",10004,Retail,20031,Retail-Major Dept Store,68
+SO ,Utilities,10014,Electric,20110,Electric-Integrated,265
+CAT ,Industrial,10011,Machinery-Constr&Mining,20085,Machinery-Constr&Mining,209
+CL ,"Consumer, Non-cyclical",10005,Cosmetics/Personal Care,20039,Cosmetics&Toiletries,100
+FMC ,Basic Materials,10002,Chemicals,20010,Chemicals-Diversified,1
+DE ,Industrial,10011,Machinery-Diversified,20086,Machinery-Farm,213
+BMY ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+WAG ,"Consumer, Cyclical",10004,Retail,20031,Retail-Drug Store,63
+BA ,Industrial,10011,Aerospace/Defense,20078,Aerospace/Defense,240
+WEN ,"Consumer, Cyclical",10004,Retail,20031,Retail-Restaurants,64
+SNV ,Financial,10008,Banks,20051,Commer Banks-Southern US,149
+BDK ,Industrial,10011,Hand/Machine Tools,20084,Tools-Hand Held,208
+LUK ,Diversified,10006,Holding Companies-Divers,20045,Diversified Operations,133
+ABT ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+DOW ,Basic Materials,10002,Chemicals,20010,Chemicals-Diversified,1
+LMT ,Industrial,10011,Aerospace/Defense,20078,Aerospace/Defense,240
+MWV ,Basic Materials,10002,Forest Products&Paper,20011,Paper&Related Products,9
+NEM ,Basic Materials,10002,Mining,20013,Gold Mining,301
+CAH ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Whsle Drug Dist,128
+IP ,Basic Materials,10002,Forest Products&Paper,20011,Paper&Related Products,9
+EXC ,Utilities,10014,Electric,20110,Electric-Integrated,265
+CNP ,Utilities,10014,Gas,20111,Gas-Distribution,269
+PFE ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+CBE ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+CBSS ,Communications,10003,Telecommunications,20017,Wireless Equipment,432
+EMR ,Industrial,10011,Electrical Compo&Equip,20080,Electric Products-Misc,191
+JNJ ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+GLW ,Communications,10003,Telecommunications,20017,Telecom Eq Fiber Optics,261
+PPG ,Basic Materials,10002,Chemicals,20010,Chemicals-Diversified,1
+PPL ,Utilities,10014,Electric,20110,Electric-Integrated,265
+MMM ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+MRK ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+MOT ,Communications,10003,Telecommunications,20017,Wireless Equipment,432
+SLE ,"Consumer, Non-cyclical",10005,Food,20040,Food-Meat Products,109
+CIN ,Utilities,10014,Electric,20110,Electric-Integrated,265
+FE ,Utilities,10014,Electric,20110,Electric-Integrated,265
+HNZ ,"Consumer, Non-cyclical",10005,Food,20040,Food-Misc/Diversified,110
+SCG ,Utilities,10014,Electric,20110,Electric-Integrated,265
+PGN ,Utilities,10014,Electric,20110,Electric-Integrated,265
+CMS ,Utilities,10014,Electric,20110,Electric-Integrated,265
+HLT ,"Consumer, Cyclical",10004,Lodging,20029,Hotels&Motels,43
+CHIR ,"Consumer, Non-cyclical",10005,Biotechnology,20037,Medical-Biomedical/Gene,252
+CINF ,Financial,10008,Insurance,20055,Multi-line Insurance,165
+POM ,Utilities,10014,Electric,20110,Electric-Integrated,265
+WEC ,Utilities,10014,Electric,20110,Electric-Integrated,265
+TXT ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+CTAS ,"Consumer, Cyclical",10004,Textiles,20033,Linen Supply&Rel Items,73
+PEG ,Utilities,10014,Electric,20110,Electric-Integrated,265
+HAL ,Energy,10007,Oil&Gas Services,20049,Oil-Field Services,142
+CZN/ ,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security
+XEL ,Utilities,10014,Electric,20110,Electric-Integrated,265
+ROH ,Basic Materials,10002,Chemicals,20010,Chemicals-Plastics,3
+ETR ,Utilities,10014,Electric,20110,Electric-Integrated,265
+CCU ,"Consumer, Non-cyclical",10005,Beverages,20036,Brewery,80
+AEP ,Utilities,10014,Electric,20110,Electric-Integrated,265
+NEE ,Utilities,10014,Electric,20110,Electric-Integrated,265
+CEG ,Utilities,10014,Electric,20110,Electric-Integrated,265
+ASH ,Basic Materials,10002,Chemicals,20010,Chemicals-Specialty,4
+EQT ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+KSE ,Utilities,10014,Gas,20111,Gas-Distribution,269
+PBI ,Technology,10013,Office/Business Equip,20107,Office Automation&Equip,253
+TXU ,Utilities,10014,Electric,20110,Electric-Integrated,265
+AA ,Basic Materials,10002,Mining,20013,Metal-Aluminum,14
+NOC ,Industrial,10011,Aerospace/Defense,20078,Aerospace/Defense,240
+RTN ,Industrial,10011,Aerospace/Defense,20078,Aerospace/Defense,240
+AEE ,Utilities,10014,Electric,20110,Electric-Integrated,265
+SGP ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+CMA ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+TEG ,Utilities,10014,Electric,20110,Electric-Integrated,265
+OKE ,Energy,10007,Pipelines,20050,Pipelines,144
+WHR ,"Consumer, Cyclical",10004,Home Furnishings,20026,Appliances,35
+CD/CAR ,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security
+HRS ,Communications,10003,Telecommunications,20017,Telecommunication Equip,262
+KMG ,Basic Materials,10002,Chemicals,20010,Chemicals-Specialty,4
+CA ,Technology,10013,Software,20109,Enterprise Software/Serv,644
+F ,"Consumer, Cyclical",10004,Auto Manufacturers,20020,Auto-Cars/Light Trucks,25
+DOV ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+MEE ,Energy,10007,Coal,20046,Coal,134
+DIS ,Communications,10003,Media,20016,Multimedia,307
+BOL ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Optical Supplies,122
+BH ,"Consumer, Cyclical",10004,Retail,20031,Retail-Restaurants,64
+LTR ,Financial,10008,Insurance,20055,Multi-line Insurance,165
+K ,"Consumer, Non-cyclical",10005,Food,20040,Food-Misc/Diversified,110
+VAR ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Products,117
+CLF ,Basic Materials,10002,Iron/Steel,20012,Metal-Iron,10
+CTB ,"Consumer, Cyclical",10004,Auto Parts&Equipment,20021,Rubber-Tires,30
+R ,Industrial,10011,Transportation,20091,Transport-Services,236
+ABI ,Financial,10008,Diversified Finan Serv,20054,Finance-Other Services,162
+STR ,Utilities,10014,Gas,20111,Gas-Distribution,269
+HPQ ,Technology,10013,Computers,20106,Computers,668
+BAX ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Products,117
+DUK ,Utilities,10014,Electric,20110,Electric-Integrated,265
+XRX ,Technology,10013,Office/Business Equip,20107,Office Automation&Equip,253
+PNW ,Utilities,10014,Electric,20110,Electric-Integrated,265
+APD ,Basic Materials,10002,Chemicals,20010,Industrial Gases,693
+MUR ,Energy,10007,Oil&Gas,20048,Oil Comp-Integrated,136
+VNO ,Financial,10008,REITS,20057,REITS-Diversified,170
+HES ,Energy,10007,Oil&Gas,20048,Oil Comp-Integrated,136
+NBR ,Energy,10007,Oil&Gas,20048,Oil&Gas Drilling,137
+DG ,"Consumer, Cyclical",10004,Retail,20031,Retail-Discount,62
+COHU ,Technology,10013,Semiconductors,20108,Semiconductor Equipment,660
+OMC ,Communications,10003,Advertising,20014,Advertising Agencies,321
+FLS ,Industrial,10011,Machinery-Diversified,20086,Machinery-Pumps,357
+HP ,Energy,10007,Oil&Gas,20048,Oil&Gas Drilling,137
+WFT ,Energy,10007,Oil&Gas Services,20049,Oil-Field Services,142
+HRL ,"Consumer, Non-cyclical",10005,Food,20040,Food-Meat Products,109
+MAS ,Industrial,10011,Building Materials,20079,Bldg Prod-Wood,190
+FITB ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+NUE ,Basic Materials,10002,Iron/Steel,20012,Steel-Producers,11
+OXY ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+RF ,Financial,10008,Banks,20051,Commer Banks-Southern US,149
+PLL ,Industrial,10011,Miscellaneous Manufactur,20088,Filtration/Separat Prod,225
+MTB ,Financial,10008,Banks,20051,Commer Banks-Eastern US,147
+FHN ,Financial,10008,Banks,20051,Commer Banks-Southern US,149
+SHW ,Basic Materials,10002,Chemicals,20010,Coatings/Paint,701
+WB ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+TE ,Utilities,10014,Electric,20110,Electric-Integrated,265
+TSO ,Energy,10007,Oil&Gas,20048,Oil Refining&Marketing,138
+BEN ,Financial,10008,Diversified Finan Serv,20054,Invest Mgmnt/Advis Serv,303
+WMB ,Energy,10007,Pipelines,20050,Pipelines,144
+RRD ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Printing-Commercial,46
+WFC ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+NI ,Utilities,10014,Gas,20111,Gas-Distribution,269
+FON/S ,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security
+APA ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+MAT ,"Consumer, Cyclical",10004,Toys/Games/Hobbies,20034,Toys,77
+BDX ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Products,117
+WY ,Financial,10008,REITS,20057,REITS-Diversified,170
+TEK ,Industrial,10011,Electronics,20081,Electronic Measur Instr,194
+CSC ,Technology,10013,Computers,20106,Computer Services,251
+IFF ,Basic Materials,10002,Chemicals,20010,Chemicals-Specialty,4
+AVP ,"Consumer, Non-cyclical",10005,Cosmetics/Personal Care,20039,Cosmetics&Toiletries,100
+TJX ,"Consumer, Cyclical",10004,Retail,20031,Retail-Major Dept Store,68
+CMI ,Industrial,10011,Machinery-Diversified,20086,Engines-Internal Combust,211
+PH ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+AT ,Utilities,10014,Electric,20110,Electric-Generation,264
+OMX ,"Consumer, Cyclical",10004,Retail,20031,Retail-Office Supplies,369
+ACV ,"Consumer, Non-cyclical",10005,Cosmetics/Personal Care,20039,Cosmetics&Toiletries,100
+PKI ,Industrial,10011,Electronics,20081,Instruments-Scientific,198
+NX ,Industrial,10011,Building Materials,20079,Bldg&Construct Prod-Misc,185
+JCI ,"Consumer, Cyclical",10004,Auto Parts&Equipment,20021,Auto/Trk Prts&Equip-Orig,28
+SJM ,"Consumer, Non-cyclical",10005,Food,20040,Food-Confectionery,105
+MDP ,Communications,10003,Media,20016,Multimedia,307
+HBAN ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+ATI ,Basic Materials,10002,Iron/Steel,20012,Steel-Specialty,12
+SWK ,Industrial,10011,Hand/Machine Tools,20084,Tools-Hand Held,208
+MCD ,"Consumer, Cyclical",10004,Retail,20031,Retail-Restaurants,64
+VFC ,"Consumer, Cyclical",10004,Apparel,20019,Apparel Manufacturers,21
+BMS ,Industrial,10011,Packaging&Containers,20089,Containers-Paper/Plastic,230
+NU ,Utilities,10014,Electric,20110,Electric-Integrated,265
+AVY ,"Consumer, Non-cyclical",10005,Household Products/Wares,20043,Office Supplies&Forms,255
+ADP ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Serv-Finance,280
+SVU ,"Consumer, Non-cyclical",10005,Food,20040,Food-Retail,111
+FRX ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+IGT ,"Consumer, Cyclical",10004,Entertainment,20023,Casino Services,327
+TYC ,Industrial,10011,Electronics,20081,Electronic Secur Devices,417
+RDC ,Energy,10007,Oil&Gas,20048,Oil&Gas Drilling,137
+SFA ,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security
+MMC ,Financial,10008,Insurance,20055,Insurance Brokers,163
+SII ,Energy,10007,Oil&Gas Services,20049,Oil-Field Services,142
+CLX ,"Consumer, Non-cyclical",10005,Household Products/Wares,20043,Consumer Products-Misc,124
+GPC ,"Consumer, Cyclical",10004,Distribution/Wholesale,20022,Distribution/Wholesale,51
+HST ,Financial,10008,REITS,20057,REITS-Hotels,670
+BCR ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Disposable Medical Prod,388
+KLAC ,Technology,10013,Semiconductors,20108,Semiconductor Equipment,660
+CC ,"Consumer, Cyclical",10004,Retail,20031,Retail-Consumer Electron,60
+NYT ,Communications,10003,Media,20016,Publishing-Newspapers,48
+JPM ,Financial,10008,Banks,20051,Diversified Banking Inst,713
+GCI ,Communications,10003,Media,20016,Publishing-Newspapers,48
+LSI ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+GAS ,Utilities,10014,Gas,20111,Gas-Distribution,269
+JP ,Financial,10008,Insurance,20055,Life/Health Insurance,164
+MCO ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Serv-Finance,280
+HUM ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical-HMO,118
+UNP ,Industrial,10011,Transportation,20091,Transport-Rail,235
+KRI ,Communications,10003,Media,20016,Publishing-Newspapers,48
+LNC ,Financial,10008,Insurance,20055,Life/Health Insurance,164
+TGT ,"Consumer, Cyclical",10004,Retail,20031,Retail-Discount,62
+HRB ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Serv-Finance,280
+DDS ,"Consumer, Cyclical",10004,Retail,20031,Retail-Regnl Dept Store,70
+BK ,Financial,10008,Banks,20051,Fiduciary Banks,695
+DHR ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+LIZ ,"Consumer, Cyclical",10004,Retail,20031,Retail-Apparel/Shoe,58
+RRC ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+ABS ,"Consumer, Non-cyclical",10005,Food,20040,Food-Retail,111
+BNI ,Industrial,10011,Transportation,20091,Transport-Rail,235
+LLY ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+ADCT ,Communications,10003,Telecommunications,20017,Telecommunication Equip,262
+FNM ,Financial,10008,Diversified Finan Serv,20054,Finance-Mtge Loan/Banker,161
+TER ,Technology,10013,Semiconductors,20108,Semiconductor Equipment,660
+NSM ,Financial,10008,Diversified Finan Serv,20054,Finance-Mtge Loan/Banker,161
+KMI ,Energy,10007,Pipelines,20050,Pipelines,144
+MI ,Financial,10008,Banks,20051,Commer Banks-Central US,148
+SYY ,"Consumer, Non-cyclical",10005,Food,20040,Food-Wholesale/Distrib,113
+MKC ,"Consumer, Non-cyclical",10005,Food,20040,Food-Misc/Diversified,110
+RHI ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Human Resources,88
+JEC ,Industrial,10011,Engineering&Construction,20082,Engineering/R&D Services,203
+THC ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical-Hospitals,119
+EFX ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Serv-Finance,280
+GWW ,"Consumer, Cyclical",10004,Distribution/Wholesale,20022,Distribution/Wholesale,51
+LEN ,"Consumer, Cyclical",10004,Home Builders,20025,Bldg-Residential/Commer,33
+MER ,Financial,10008,Diversified Finan Serv,20054,Finance-Invest Bnkr/Brkr,159
+HAS ,"Consumer, Cyclical",10004,Toys/Games/Hobbies,20034,Toys,77
+IPG ,Communications,10003,Advertising,20014,Advertising Agencies,321
+WPO ,Communications,10003,Media,20016,Publishing-Newspapers,48
+GDW ,Financial,10008,Savings&Loans,20059,S&L/Thrifts-Western US,154
+MU ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+CTX ,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security
+FDO ,"Consumer, Cyclical",10004,Retail,20031,Retail-Discount,62
+PHM ,"Consumer, Cyclical",10004,Home Builders,20025,Bldg-Residential/Commer,33
+MIL ,Industrial,10011,Transportation,20091,Transport-Services,236
+HOT ,"Consumer, Cyclical",10004,Lodging,20029,Hotels&Motels,43
+MOLX ,Industrial,10011,Electrical Compo&Equip,20080,Electric Products-Misc,191
+WMT ,"Consumer, Cyclical",10004,Retail,20031,Retail-Discount,62
+LPX ,Industrial,10011,Building Materials,20079,Bldg&Construct Prod-Misc,185
+NCC ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+CAG ,"Consumer, Non-cyclical",10005,Food,20040,Food-Misc/Diversified,110
+ITW ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+BLL ,Industrial,10011,Packaging&Containers,20089,Containers-Metal/Glass,229
+NKE ,"Consumer, Cyclical",10004,Apparel,20019,Athletic Footwear,324
+JWN ,"Consumer, Cyclical",10004,Retail,20031,Retail-Major Dept Store,68
+AFL ,Financial,10008,Insurance,20055,Life/Health Insurance,164
+NFB ,Financial,10008,Banks,20051,Commer Banks-Eastern US,147
+NTRS ,Financial,10008,Banks,20051,Fiduciary Banks,695
+NT ,Communications,10003,Telecommunications,20017,Telecommunication Equip,262
+LUV ,"Consumer, Cyclical",10004,Airlines,20018,Airlines,20
+DJ ,Communications,10003,Media,20016,Publishing-Newspapers,48
+GPS ,"Consumer, Cyclical",10004,Retail,20031,Retail-Apparel/Shoe,58
+AXP ,Financial,10008,Diversified Finan Serv,20054,Finance-Credit Card,158
+BUD ,"Consumer, Non-cyclical",10005,Beverages,20036,Brewery,80
+CB ,Financial,10008,Insurance,20055,Property/Casualty Ins,166
+TAP ,"Consumer, Non-cyclical",10005,Beverages,20036,Brewery,80
+INTC ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+MEL ,Financial,10008,Banks,20051,Fiduciary Banks,695
+BAC ,Financial,10008,Banks,20051,Diversified Banking Inst,713
+SAF ,Financial,10008,Insurance,20055,Property/Casualty Ins,166
+TRV ,Financial,10008,Insurance,20055,Property/Casualty Ins,166
+MDT ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Instruments,116
+SNA ,Industrial,10011,Hand/Machine Tools,20084,Tools-Hand Held,208
+PNC ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+PCAR ,"Consumer, Cyclical",10004,Auto Manufacturers,20020,Auto-Med&Heavy Duty Trks,26
+CTL ,Communications,10003,Telecommunications,20017,Telephone-Integrated,300
+FDX ,Industrial,10011,Transportation,20091,Transport-Services,236
+ADI ,Technology,10013,Semiconductors,20108,Semicon Compo-Intg Circu,658
+LEG ,Industrial,10011,Miscellaneous Manufactur,20088,Diversified Manufact Op,223
+NWL ,"Consumer, Cyclical",10004,Housewares,20027,Home Decoration Products,293
+AMD ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+LOW ,"Consumer, Cyclical",10004,Retail,20031,Retail-Building Products,55
+PAYX ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Serv-Finance,280
+AON ,Financial,10008,Insurance,20055,Insurance Brokers,163
+NBL ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+TMO ,Industrial,10011,Electronics,20081,Instruments-Scientific,198
+CSX ,Industrial,10011,Transportation,20091,Transport-Rail,235
+TMK ,Financial,10008,Insurance,20055,Life/Health Insurance,164
+ASO ,Funds,10009,Commodity Fund,20071,Commodity,913
+EC ,Energy,10007,Oil&Gas,20048,Oil Comp-Integrated,136
+SWN ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+PCP ,Industrial,10011,Metal Fabricate/Hardware,20087,Metal Processors&Fabrica,219
+CI ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical-HMO,118
+LTD ,"Consumer, Cyclical",10004,Retail,20031,Retail-Apparel/Shoe,58
+NSC ,Industrial,10011,Transportation,20091,Transport-Rail,235
+PGR ,Financial,10008,Insurance,20055,Property/Casualty Ins,166
+ASN ,Financial,10008,REITS,20057,REITS-Apartments,169
+CFC ,Financial,10008,Diversified Finan Serv,20054,Finance-Mtge Loan/Banker,161
+PSA ,Financial,10008,REITS,20057,REITS-Storage,180
+STZ ,"Consumer, Non-cyclical",10005,Beverages,20036,Beverages-Wine/Spirits,167
+D ,Utilities,10014,Electric,20110,Electric-Integrated,265
+KEY ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+LM ,Financial,10008,Diversified Finan Serv,20054,Invest Mgmnt/Advis Serv,303
+TRB ,Communications,10003,Media,20016,Publishing-Newspapers,48
+VZ ,Communications,10003,Telecommunications,20017,Telephone-Integrated,300
+BLS ,Communications,10003,Telecommunications,20017,Telephone-Integrated,300
+HCN ,Financial,10008,REITS,20057,REITS-Health Care,171
+SBC ,Communications,10003,Telecommunications,20017,Telephone-Integrated,300
+TIN ,Industrial,10011,Packaging&Containers,20089,Containers-Paper/Plastic,230
+USB ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+HD ,"Consumer, Cyclical",10004,Retail,20031,Retail-Building Products,55
+SLM ,Financial,10008,Diversified Finan Serv,20054,Finance-Consumer Loans,157
+WDC ,Technology,10013,Computers,20106,Computers-Memory Devices,245
+AIG ,Financial,10008,Insurance,20055,Multi-line Insurance,165
+BIG ,"Consumer, Cyclical",10004,Retail,20031,Retail-Discount,62
+HCP ,Financial,10008,REITS,20057,REITS-Health Care,171
+STI ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+BSC ,Funds,10009,Equity Fund,20066,Value-Small Cap,771
+STJ ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Instruments,116
+MS ,Financial,10008,Banks,20051,Diversified Banking Inst,713
+MYL ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Generic Drugs,127
+HOG ,"Consumer, Cyclical",10004,Leisure Time,20028,Motorcycle/Motor Scooter,342
+KBH ,"Consumer, Cyclical",10004,Home Builders,20025,Bldg-Residential/Commer,33
+ARG ,Basic Materials,10002,Chemicals,20010,Industrial Gases,693
+APC ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+CCE ,"Consumer, Non-cyclical",10005,Beverages,20036,Beverages-Non-alcoholic,81
+SIAL ,Basic Materials,10002,Chemicals,20010,Chemicals-Specialty,4
+ECL ,Basic Materials,10002,Chemicals,20010,Chemicals-Specialty,4
+UNM ,Financial,10008,Insurance,20055,Life/Health Insurance,164
+BBT ,Financial,10008,Banks,20051,Commer Banks-Southern US,149
+STT ,Financial,10008,Banks,20051,Fiduciary Banks,695
+SYK ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Products,117
+SBL ,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security
+BHI ,Energy,10007,Oil&Gas Services,20049,Oil-Field Services,142
+TIF ,"Consumer, Cyclical",10004,Retail,20031,Retail-Jewelry,66
+CBS ,Communications,10003,Media,20016,Television,44
+CCL ,"Consumer, Cyclical",10004,Leisure Time,20028,Cruise Lines,334
+MBI ,Financial,10008,Insurance,20055,Financial Guarantee Ins,285
+SCHW ,Financial,10008,Diversified Finan Serv,20054,Finance-Invest Bnkr/Brkr,159
+GFR ,Financial,10008,Insurance,20055,Life/Health Insurance,164
+HAR ,"Consumer, Cyclical",10004,Home Furnishings,20026,Audio/Video Products,37
+PXD ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+TLAB ,Communications,10003,Telecommunications,20017,Telecommunication Equip,262
+BR ,Technology,10013,Software,20109,Data Processing/Mgmt,424
+SPLS ,"Consumer, Cyclical",10004,Retail,20031,Retail-Office Supplies,369
+ADBE ,Technology,10013,Software,20109,Electronic Forms,649
+ODP ,"Consumer, Cyclical",10004,Retail,20031,Retail-Office Supplies,369
+ALTR ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+PCL ,Financial,10008,REITS,20057,REITS-Diversified,170
+SYMC ,Communications,10003,Internet,20015,Internet Security,691
+AGN ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+FRE ,Financial,10008,Diversified Finan Serv,20054,Finance-Leasing Compan,160
+VTR ,Financial,10008,REITS,20057,REITS-Health Care,171
+EOG ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+ERTS ,Technology,10013,Software,20109,Entertainment Software,426
+SLR ,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security,#N/A Invalid Security
+PMTC ,Technology,10013,Software,20109,Applications Software,422
+CSCO ,Communications,10003,Telecommunications,20017,Networking Products,359
+COG ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+HET ,"Consumer, Cyclical",10004,Lodging,20029,Casino Hotels,326
+SWY ,"Consumer, Non-cyclical",10005,Food,20040,Food-Retail,111
+HCA ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical-Hospitals,119
+XLNX ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+BJS ,Energy,10007,Oil&Gas Services,20049,Oil-Field Services,142
+AN ,"Consumer, Cyclical",10004,Retail,20031,Retail-Automobile,277
+HMA ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical-Hospitals,119
+AZO ,"Consumer, Cyclical",10004,Retail,20031,Retail-Auto Parts,54
+CVH ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical-HMO,118
+PMCS ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+CEPH ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+JNY ,"Consumer, Cyclical",10004,Apparel,20019,Apparel Manufacturers,21
+TSS ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Serv-Finance,280
+X ,Basic Materials,10002,Iron/Steel,20012,Steel-Producers,11
+MEDI ,"Consumer, Non-cyclical",10005,Biotechnology,20037,Medical-Biomedical/Gene,252
+DV ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Schools,95
+AES ,Utilities,10014,Electric,20110,Electric-Generation,264
+ABK ,Financial,10008,Insurance,20055,Financial Guarantee Ins,285
+MTG ,Financial,10008,Insurance,20055,Financial Guarantee Ins,285
+BIIB ,"Consumer, Non-cyclical",10005,Biotechnology,20037,Medical-Biomedical/Gene,252
+AW ,Industrial,10011,Environmental Control,20083,Non-hazardous Waste Disp,354
+HCR ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical-Nursing Homes,120
+KIM ,Financial,10008,REITS,20057,REITS-Shopping Centers,179
+FSH ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical Labs&Testing Srv,394
+OI ,Industrial,10011,Packaging&Containers,20089,Containers-Metal/Glass,229
+QCOM ,Technology,10013,Semiconductors,20108,Semicon Compo-Intg Circu,658
+GILD ,"Consumer, Non-cyclical",10005,Biotechnology,20037,Medical-Biomedical/Gene,252
+WFMI ,"Consumer, Non-cyclical",10005,Food,20040,Food-Retail,111
+ROP ,Industrial,10011,Machinery-Diversified,20086,Machinery-General Indust,214
+PLMD ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Products,117
+TWX ,Communications,10003,Media,20016,Multimedia,307
+FD ,"Consumer, Cyclical",10004,Retail,20031,Retail-Regnl Dept Store,70
+EP ,Energy,10007,Pipelines,20050,Pipelines,144
+FDC ,Technology,10013,Software,20109,Data Processing/Mgmt,424
+BSX ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Instruments,116
+KSS ,"Consumer, Cyclical",10004,Retail,20031,Retail-Regnl Dept Store,70
+BBBY ,"Consumer, Cyclical",10004,Retail,20031,Retail-Bedding,362
+DHI ,"Consumer, Cyclical",10004,Home Builders,20025,Bldg-Residential/Commer,33
+ESRX ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Pharmacy Services,405
+SBUX ,"Consumer, Cyclical",10004,Retail,20031,Retail-Restaurants,64
+TSN ,"Consumer, Non-cyclical",10005,Food,20040,Food-Meat Products,109
+PX ,Basic Materials,10002,Chemicals,20010,Industrial Gases,693
+MFE ,Communications,10003,Internet,20015,Internet Security,691
+PDCO ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Dental Supplies&Equip,129
+CHK ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+WPI ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Generic Drugs,127
+INTU ,Technology,10013,Software,20109,Applications Software,422
+MCHP ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+ACE ,Financial,10008,Insurance,20055,Multi-line Insurance,165
+JBL ,Industrial,10011,Electronics,20081,Electronic Compo-Misc,193
+ORLY ,"Consumer, Cyclical",10004,Retail,20031,Retail-Auto Parts,54
+SANM ,Industrial,10011,Electronics,20081,Electronic Compo-Misc,193
+XTO ,Energy,10007,Oil&Gas,20048,Oil Comp-Integrated,136
+RIG ,Energy,10007,Oil&Gas,20048,Oil&Gas Drilling,137
+FLIR ,Industrial,10011,Electronics,20081,Electronic Measur Instr,194
+ALL ,Financial,10008,Insurance,20055,Multi-line Insurance,165
+LNX ,"Consumer, Cyclical",10004,Housewares,20027,Housewares,231
+NXL ,Financial,10008,REITS,20057,REITS-Shopping Centers,179
+EQR ,Financial,10008,REITS,20057,REITS-Apartments,169
+JDSU ,Communications,10003,Telecommunications,20017,Telecom Eq Fiber Optics,261
+URBN ,"Consumer, Cyclical",10004,Retail,20031,Retail-Apparel/Shoe,58
+GTW ,Technology,10013,Computers,20106,Computers,668
+EMN ,Basic Materials,10002,Chemicals,20010,Chemicals-Specialty,4
+SPG ,Financial,10008,REITS,20057,REITS-Regional Malls,178
+QLGC ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+AKS ,Basic Materials,10002,Iron/Steel,20012,Steel-Producers,11
+AVB ,Financial,10008,REITS,20057,REITS-Apartments,169
+PLD ,Financial,10008,REITS,20057,REITS-Warehouse/Industr,181
+LEH ,Financial,10008,Diversified Finan Serv,20054,Finance-Invest Bnkr/Brkr,159
+AIV ,Financial,10008,REITS,20057,REITS-Apartments,169
+ACS ,Financial,10008,Closed-end Funds,20052,Closed-end Funds,155
+COF ,Financial,10008,Banks,20051,Super-Regional Banks-US,146
+MCK ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Whsle Drug Dist,128
+GDT ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Instruments,116
+APOL ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Schools,95
+CMX ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Pharmacy Services,405
+TT ,Industrial,10011,Building Materials,20079,Bldg Prod-Air&Heating,186
+ABC ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Whsle Drug Dist,128
+WM ,Industrial,10011,Environmental Control,20083,Non-hazardous Waste Disp,354
+DRI ,"Consumer, Cyclical",10004,Retail,20031,Retail-Restaurants,64
+FCX ,Basic Materials,10002,Mining,20013,Metal-Copper,13
+WFR ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+CAM ,Energy,10007,Oil&Gas Services,20049,Oil Field Mach&Equip,143
+IVZ ,Financial,10008,Diversified Finan Serv,20054,Invest Mgmnt/Advis Serv,303
+DNR ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+DO ,Energy,10007,Oil&Gas,20048,Oil&Gas Drilling,137
+DVA ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Dialysis Centers,387
+NTAP ,Technology,10013,Computers,20106,Computers-Memory Devices,245
+SNDK ,Technology,10013,Computers,20106,Computers-Memory Devices,245
+EL ,"Consumer, Non-cyclical",10005,Cosmetics/Personal Care,20039,Cosmetics&Toiletries,100
+LXK ,Technology,10013,Computers,20106,Computers-Peripher Equip,250
+WAT ,Industrial,10011,Electronics,20081,Instruments-Scientific,198
+CTXS ,Technology,10013,Software,20109,Applications Software,422
+HIG ,Financial,10008,Insurance,20055,Multi-line Insurance,165
+IRM ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Services,84
+LU ,Communications,10003,Telecommunications,20017,Telecommunication Equip,262
+DF ,"Consumer, Non-cyclical",10005,Food,20040,Food-Dairy Products,106
+YHOO ,Communications,10003,Internet,20015,Web Portals/ISP,684
+EDS ,"Consumer, Cyclical",10004,Apparel,20019,Apparel Manufacturers,21
+SEBL ,Technology,10013,Software,20109,Applications Software,422
+TIE ,Basic Materials,10002,Mining,20013,Non-Ferrous Metals,703
+ETFC ,Financial,10008,Diversified Finan Serv,20054,Finance-Invest Bnkr/Brkr,159
+SRCL ,Industrial,10011,Environmental Control,20083,Hazardous Waste Disposal,353
+ANF ,"Consumer, Cyclical",10004,Retail,20031,Retail-Apparel/Shoe,58
+UVN ,Communications,10003,Media,20016,Television,44
+RX ,Technology,10013,Software,20109,Medical Information Sys,427
+NOV ,Energy,10007,Oil&Gas Services,20049,Oil Field Mach&Equip,143
+TSG ,"Consumer, Cyclical",10004,Leisure Time,20028,Travel Services,336
+TMRK ,Communications,10003,Internet,20015,Web Hosting/Design,692
+SSP ,Communications,10003,Media,20016,Multimedia,307
+MWW ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Human Resources,88
+NCR ,Technology,10013,Computers,20106,Computers-Integrated Sys,243
+DGX ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical Labs&Testing Srv,394
+ROK ,Industrial,10011,Machinery-Diversified,20086,Industrial Automat/Robot,212
+CIEN ,Communications,10003,Telecommunications,20017,Telecom Eq Fiber Optics,261
+APH ,Industrial,10011,Electronics,20081,Electronic Connectors,195
+AMZN ,Communications,10003,Internet,20015,E-Commerce/Products,677
+Q ,Communications,10003,Telecommunications,20017,Telephone-Integrated,300
+BXP ,Financial,10008,REITS,20057,REITS-Office Property,175
+RL ,"Consumer, Cyclical",10004,Apparel,20019,Apparel Manufacturers,21
+EOP ,Financial,10008,REITS,20057,REITS-Office Property,175
+VLO ,Energy,10007,Oil&Gas,20048,Oil Refining&Marketing,138
+CHRW ,Industrial,10011,Transportation,20091,Transport-Services,236
+AMCC ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+ADSK ,Technology,10013,Software,20109,Computer Aided Design,647
+VRSN ,Communications,10003,Internet,20015,Internet Security,691
+DIA ,Funds,10009,Equity Fund,20066,Growth&Income-Large Cap,762
+PWR ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Services,84
+MAR ,"Consumer, Cyclical",10004,Lodging,20029,Hotels&Motels,43
+BBY ,"Consumer, Cyclical",10004,Retail,20031,Retail-Consumer Electron,60
+SEE ,Industrial,10011,Packaging&Containers,20089,Containers-Paper/Plastic,230
+RLH ,"Consumer, Cyclical",10004,Lodging,20029,Hotels&Motels,43
+BRCM ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+LLL ,Industrial,10011,Aerospace/Defense,20078,Electronics-Military,242
+FII ,Financial,10008,Diversified Finan Serv,20054,Invest Mgmnt/Advis Serv,303
+AMT ,Financial,10008,REITS,20057,REITS-Diversified,170
+SRE ,Utilities,10014,Gas,20111,Gas-Distribution,269
+CTSH ,Technology,10013,Computers,20106,Computer Services,251
+KG ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Medical-Drugs,126
+RSG ,Industrial,10011,Environmental Control,20083,Non-hazardous Waste Disp,354
+CVG ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Services,84
+XL ,Financial,10008,Insurance,20055,Multi-line Insurance,165
+EBAY ,Communications,10003,Internet,20015,E-Commerce/Products,677
+NVDA ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+LIFE ,"Consumer, Non-cyclical",10005,Biotechnology,20037,Medical-Biomedical/Gene,252
+PBG ,"Consumer, Non-cyclical",10005,Beverages,20036,Beverages-Non-alcoholic,81
+PCLN ,Communications,10003,Internet,20015,E-Commerce/Services,678
+CNX ,Energy,10007,Coal,20046,Coal,134
+GS ,Financial,10008,Banks,20051,Diversified Banking Inst,713
+RAI ,"Consumer, Non-cyclical",10005,Agriculture,20035,Tobacco,132
+JNPR ,Communications,10003,Telecommunications,20017,Telecommunication Equip,262
+COST ,"Consumer, Cyclical",10004,Retail,20031,Retail-Discount,62
+HCBK ,Financial,10008,Savings&Loans,20059,S&L/Thrifts-Eastern US,151
+DVN ,Energy,10007,Oil&Gas,20048,Oil Comp-Explor&Prodtn,135
+RHT ,Technology,10013,Software,20109,Applications Software,422
+PTV ,Industrial,10011,Packaging&Containers,20089,Containers-Paper/Plastic,230
+AKAM ,Technology,10013,Software,20109,Computer Software,258
+A ,Industrial,10011,Electronics,20081,Electronic Measur Instr,194
+UPS ,Industrial,10011,Transportation,20091,Transport-Services,236
+EXPD ,Industrial,10011,Transportation,20091,Transport-Services,236
+MET ,Financial,10008,Insurance,20055,Multi-line Insurance,165
+JNS ,Financial,10008,Diversified Finan Serv,20054,Invest Mgmnt/Advis Serv,303
+ISRG ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Instruments,116
+AV ,Financial,10008,Insurance,20055,Life/Health Insurance,164
+DNB ,Technology,10013,Software,20109,Data Processing/Mgmt,424
+V ,Financial,10008,Diversified Finan Serv,20054,Finance-Credit Card,158
+COH ,"Consumer, Cyclical",10004,Apparel,20019,Apparel Manufacturers,21
+MON ,Basic Materials,10002,Chemicals,20010,Agricultural Chemicals,698
+AET ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical-HMO,118
+FLR ,Industrial,10011,Engineering&Construction,20082,Engineering/R&D Services,203
+BTU ,Energy,10007,Coal,20046,Coal,134
+FIS ,Technology,10013,Software,20109,Data Processing/Mgmt,424
+FTI ,Energy,10007,Oil&Gas Services,20049,Oil Field Mach&Equip,143
+KFT ,"Consumer, Non-cyclical",10005,Food,20040,Food-Misc/Diversified,110
+COL ,Industrial,10011,Aerospace/Defense,20078,Aerospace/Defense,240
+WLP ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical-HMO,118
+PFG ,Financial,10008,Insurance,20055,Life/Health Insurance,164
+PRU ,Financial,10008,Insurance,20055,Life/Health Insurance,164
+GME ,"Consumer, Cyclical",10004,Retail,20031,Retail-Computer Equip,364
+LO ,"Consumer, Non-cyclical",10005,Agriculture,20035,Tobacco,132
+CIT ,Financial,10008,Banks,20051,Commer Banks-Eastern US,147
+WYNN ,"Consumer, Cyclical",10004,Lodging,20029,Casino Hotels,326
+CME ,Financial,10008,Diversified Finan Serv,20054,Finance-Other Services,162
+SHLD ,"Consumer, Cyclical",10004,Retail,20031,Retail-Major Dept Store,68
+MHS ,"Consumer, Non-cyclical",10005,Pharmaceuticals,20044,Pharmacy Services,405
+DTV ,Communications,10003,Media,20016,Cable/Satellite TV,45
+AIZ ,Financial,10008,Insurance,20055,Multi-line Insurance,165
+NRG ,Utilities,10014,Electric,20110,Independ Power Producer,267
+HSP ,"Consumer, Non-cyclical",10005,Healthcare-Products,20041,Medical Products,117
+GNW ,Financial,10008,Insurance,20055,Multi-line Insurance,165
+CBG ,Financial,10008,Real Estate,20058,Real Estate Mgmnt/Servic,673
+GOOG ,Communications,10003,Internet,20015,Web Portals/ISP,684
+DYN ,Utilities,10014,Electric,20110,Independ Power Producer,267
+NWSA ,Communications,10003,Media,20016,Multimedia,307
+NWS ,Communications,10003,Media,20016,Multimedia,307
+NE ,Energy,10007,Oil&Gas,20048,Oil&Gas Drilling,137
+NDAQ ,Financial,10008,Diversified Finan Serv,20054,Finance-Other Services,162
+NOVL ,Technology,10013,Software,20109,Enterprise Software/Serv,644
+EXPE ,Communications,10003,Internet,20015,E-Commerce/Services,678
+CF ,Basic Materials,10002,Chemicals,20010,Agricultural Chemicals,698
+VTI ,Funds,10009,Equity Fund,20066,Growth & Income,758
+AMP ,Financial,10008,Diversified Finan Serv,20054,Invest Mgmnt/Advis Serv,303
+ICE ,Financial,10008,Diversified Finan Serv,20054,Finance-Other Services,162
+VIAB ,Communications,10003,Media,20016,Multimedia,307
+NYX ,Financial,10008,Diversified Finan Serv,20054,Finance-Other Services,162
+MA ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Serv-Finance,280
+RBK ,"Consumer, Cyclical",10004,Apparel,20019,Athletic Footwear,324
+WIN ,Communications,10003,Telecommunications,20017,Telephone-Integrated,300
+WYN ,"Consumer, Cyclical",10004,Lodging,20029,Hotels&Motels,43
+WU ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Commercial Serv-Finance,280
+SAI ,"Consumer, Non-cyclical",10005,Commercial Services,20038,Consulting Services,296
+ROST ,"Consumer, Cyclical",10004,Retail,20031,Retail-Apparel/Shoe,58
+FSLR ,Technology,10013,Semiconductors,20108,Electronic Compo-Semicon,256
+SE ,Energy,10007,Pipelines,20050,Pipelines,144
+TWC ,Communications,10003,Media,20016,Cable/Satellite TV,45
+PCS ,Communications,10003,Telecommunications,20017,Cellular Telecom,259
+DFS ,Financial,10008,Diversified Finan Serv,20054,Finance-Credit Card,158
+TDC ,Technology,10013,Computers,20106,Computers-Integrated Sys,243
+AHC ,Communications,10003,Media,20016,Publishing-Newspapers,48
+PM ,"Consumer, Non-cyclical",10005,Agriculture,20035,Tobacco,132
+DPS ,"Consumer, Non-cyclical",10005,Beverages,20036,Beverages-Non-alcoholic,81
+UNH ,"Consumer, Non-cyclical",10005,Healthcare-Services,20042,Medical-HMO,118
