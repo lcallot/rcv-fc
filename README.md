@@ -2,9 +2,9 @@
 ## Laurent Callot, Anders B. Kock, Marcelo C. Medeiros.
 
 
-[Link to the paper](http://lcallot.github.io/papers/rcv_forecasts.pdf/)
+[Link to the paper](http://lcallot.github.io/papers/rcv_forecasts.pdf)
 
-[Link to the supplementary material](http://lcallot.github.io/papers/rcv_supplement.pdf/)
+[Link to the supplementary material](http://lcallot.github.io/papers/rcv_supplement.pdf)
 
 ---
 Date 06/12/2015
