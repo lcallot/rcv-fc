@@ -65,13 +65,30 @@ img {
 <h1>Computation material for: ‘Modeling and forecasting large realized covariance matrices and portfolio choice.’</h1>
 <div id="laurent-callot-anders-b.-kock-marcelo-c.-medeiros." class="section level2">
 <h2>Laurent Callot, Anders B. Kock, Marcelo C. Medeiros.</h2>
-<p><a href="http://lcallot.github.io/papers/rcv_forecasts.pdf/">Link to the paper</a></p>
-<p><a href="http://lcallot.github.io/papers/rcv_supplement.pdf/">Link to the supplementary material</a></p>
+<p><a href="http://lcallot.github.io/papers/rcv_forecasts.pdf">Link to the paper</a></p>
+<p><a href="http://lcallot.github.io/papers/rcv_supplement.pdf">Link to the supplementary material</a></p>
 <hr />
-<p>Date 06/12/2015</p>
+<p>Date 29/12/2015</p>
 <p>This repository contains the material used to compute the results in: ‘Modeling and forecasting large realized covariance matrices and portfolio choice.’ Due to the complexity of the computations involved and the size of the intermediate output, the material in the present repo does not contain the saved forecast results necessary to generate the output. All the code used in the paper as well as the raw data is included.</p>
-<div id="content" class="section level3">
-<h3>Content</h3>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>The data is contained in the <em>data</em> folder. It contains 13 files</p>
+<ul>
+<li>Files starting with <strong>CRK</strong> are <strong>R</strong> data files containing realized covariance matrices for different subset of the data at different levels of aggregation. These are <strong>Rdata</strong> files and can be loaded with the command <code>load('CRK_file_name)</code> in <strong>R</strong>. The file names should be interepreted as follows:
+<ol style="list-style-type: decimal">
+<li>Files names ending with <em>W</em> or <em>M</em> refer to weekly or monthly aggregated data, all others (with <em>har</em> in the name) are daily data.</li>
+<li>Files containing <em>dj</em> in the name indicate that the data is composed of the 30 stocks of the Dow-Jones. Files containing <em>fac</em> are the Dow-Jones augmented with the S&amp;P 500 used as a common factor.</li>
+<li>Files containing <em>cens</em> in the name refer to censored data (see paper), <em>none</em> is used for uncensored data.</li>
+<li>The transformations applied to the data are refered to as <em>lcov</em> and <em>lmat</em> or <em>none</em>, see the paper for details.</li>
+</ol></li>
+<li><strong>mk_aggdata.Rnw</strong> and <strong>mk_aggdata.pdf</strong> contains the code used to aggregate the daily data to weekly and monthly data.</li>
+<li><strong>dates</strong> and <strong>dj_crk_dates.txt</strong> are plain text files containing the calendar date of the daily observations.</li>
+<li><strong>sp_indus.csv</strong> is a plain text file containing information on the industry category of every stock in the S&amp;P 500. <strong>dj-cat</strong> and <strong>dj_crk_names.txt</strong> are subsets of that file for the Dow Jones stock. <strong>get_dj_indus.R</strong> is the script used to extract the Dow Jones subset.</li>
+<li><strong>dj-ind</strong> is a plain text file containing the ticker and S&amp;P index of the 30 stocks of the Dow Jones.</li>
+</ul>
+</div>
+<div id="computations" class="section level3">
+<h3>Computations</h3>
 <p>Our computations can be summarized in 3 main steps.</p>
 <ol style="list-style-type: decimal">
 <li>Computing the VAR forecasts. This step involves heavy computations, some of which was carried on the <a href="https://userinfo.surfsara.nl/systems/lisa">Lisa cluster</a> and some on the server of the VU’s Econometrics and OR department. The <strong>R</strong> scripts for these computations are found in the <em>VAR_forecasting</em> folder.</li>
@@ -80,7 +97,6 @@ img {
 </ol>
 <p>Other material includes:</p>
 <ul>
-<li><strong>data</strong>: The realized covariance matrices, daily returns, dates of the observations, and names and industry categories for the stocks of the Dow Jones.</li>
 <li><strong>subs</strong>: Sets of <strong>R</strong> functions used in the computations.</li>
 <li><strong>DCC_and_EWMA</strong>: The code used to compute the DCC and EWMA models.</li>
 </ul>
