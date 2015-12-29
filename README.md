@@ -23,6 +23,7 @@ The data is contained in the _data_ folder. It contains 13 files
     2. Files containing _dj_ in the name indicate that the data is composed of the 30 stocks of the Dow-Jones. Files containing _fac_ are the Dow-Jones augmented with the S\&P 500 used as a common factor. 
     3. Files containing _cens_ in the name refer to censored data (see paper), _none_ is used for uncensored data. 
     4. The transformations applied to the data are refered to as _lcov_ and _lmat_ or _none_, see the paper for details. 
+    
  - __mk\_aggdata.Rnw__ and __mk\_aggdata.pdf__ contains the code used to aggregate the daily data to weekly and monthly data.
  - __dates__ and __dj\_crk\_dates.txt__ are plain text files containing the calendar date of the daily observations. 
  - __sp\_indus.csv__ is a plain text file containing information on the industry category of every stock in the S\&P 500. __dj-cat__ and __dj\_crk\_names.txt__ are subsets of that file for the Dow Jones stock. __get\_dj\_indus.R__ is the script used to extract the Dow Jones subset. 
