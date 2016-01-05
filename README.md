@@ -56,9 +56,9 @@ library('devtools')
 install_github('lcallot/lassovar')
 library('lassovar')
 
-library(plyr)
-library(parallel)
-library(magrittr)
+library('plyr')
+library('parallel')
+library('magrittr')
 library('Matrix')
 library('SparseM')
 library('glmnet')
@@ -71,7 +71,7 @@ library('reshape2')
 library('ggplot2')
 
 # for the DCC
-library(rmgarch)
+library('rmgarch')
 
 ```
 
