@@ -16,9 +16,9 @@ This repository contains the material used to compute the results in: 'Modeling 
 
 ### Data 
 
-The data is contained in the _data_ folder. It contains 13 files
+The data is contained in the _data_ folder.
 
-  - Files starting with __CRK__ are __R__ data files containing realized covariance matrices for different subset of the data at different levels of aggregation. These are __Rdata__ files and can be loaded with the command `load('CRK_file_name)` in __R__. The file names should be interepreted as follows:
+  - Files starting with __CRK__ are __R__ data files containing realized covariance matrices for different subset of the data at different levels of aggregation. These are __Rdata__ files and can be loaded with the command `load('CRK_file_name)` in __R__. We have 1474 daily observations, 315 weekly observations, and 72 monthly observations. Each row contains a realized covariance matrix (465 columns for the 30 stocks of the Dow Jones, 496 for the Dow Jones augmented with the S&P 500 index). Rows are constructed by concatenating the upper diagonal of a realized covariance matrix so that the entries are: var(stock1), cov(stock1,stock2), var(stock2), cov(stock1,stock3), cov(stock2,stock3), var(stock3), etc. The file names should be interepreted as follows:
     1. Files names ending with _W_ or _M_ refer to weekly or monthly aggregated data, all others (with _har_ in the name) are daily data. 
     2. Files containing _dj_ in the name indicate that the data is composed of the 30 stocks of the Dow-Jones. Files containing _fac_ are the Dow-Jones augmented with the S\&P 500 used as a common factor. 
     3. Files containing _cens_ in the name refer to censored data (see paper), _none_ is used for uncensored data. 
@@ -28,6 +28,7 @@ The data is contained in the _data_ folder. It contains 13 files
   - __dates__ and __dj\_crk\_dates.txt__ are plain text files containing the calendar date of the daily observations. 
   - __sp\_indus.csv__ is a plain text file containing information on the industry category of every stock in the S\&P 500. __dj-cat__ and __dj\_crk\_names.txt__ are subsets of that file for the Dow Jones stock. __get\_dj\_indus.R__ is the script used to extract the Dow Jones subset. 
   - __dj-ind__ is a plain text file containing the ticker and S\&P index of the 30 stocks of the Dow Jones. 
+  - __data\_convert.R__ is a script to convert the data to csv for the JAE data archive.
  
 
 ### Computations
